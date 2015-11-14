@@ -52,11 +52,17 @@ def showEvent():
 @auth.requires_login()
 def eventView():
     ##db(db.userTag.auth_user==session.auth.user.id).select()
-    tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
-    events = []
-    blah = tags[0]
-    for taga in tags:
-        events = db(db.eventTag.tag == taga).select(db.events.eventName)
+    #tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
+    #events = []
+    #blah = tags[0]
+    #for taga in tags:
+    #    events = db(db.eventTag.tag == taga).select(db.events.eventName)
+    events = db(db.userTag.auth_user==session.auth.user.id and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select(db.events.eventName, db.events.startAt, db.events.endAt, db.events.typeOfEvent, distinct=True)
+    #events[0].typeOfEvent="SADASDASDASFASGSGDJ"
+    for event in events:
+        if event.typeOfEvent == 'Academic':
+            event["class"] = "event-important"
+
     return locals()
 
 
