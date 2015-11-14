@@ -666,3 +666,13 @@ success!
 success!
 success!
 success!
+success!
+success!
+success!
+success!
+timestamp: 2015-11-15T03:29:24.877766
+ALTER TABLE events ADD description TEXT;
+success!
+success!
+success!
+success!
