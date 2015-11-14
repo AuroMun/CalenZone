@@ -48,3 +48,9 @@
 [2015-11-15 00:25:20] EDIT CalenZone/controllers/default.py: 0
 [2015-11-15 00:26:18] EDIT CalenZone/controllers/default.py: 2
 [2015-11-15 00:31:16] EDIT CalenZone/controllers/default.py: 0
+[2015-11-15 01:28:40] EDIT CalenZone/controllers/default.py: 3
+[2015-11-15 01:28:53] CREATE default/createEvent.html: 0
+[2015-11-15 01:31:24] EDIT CalenZone/controllers/default.py: 3
+[2015-11-15 01:31:45] CREATE default/setEventTags.html: 0
+[2015-11-15 01:32:20] EDIT CalenZone/controllers/default.py: 0
+[2015-11-15 01:33:08] EDIT CalenZone/controllers/default.py: 2

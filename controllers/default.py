@@ -29,6 +29,16 @@ def profile():
         response.flash = T("Tag Added!")
     return dict(form=form, tags=tags)
 
+def createEvent():
+    form = SQLFORM(db.events)
+    if form.process().accepted:
+        response.flash = T("Event Created!")
+    return dict(form=form)
+    
+def setEventTags():
+    form = SQLFORM(db.eventTag)
+    return dict(form=form)
+
 def user():
     """
     exposes:
@@ -45,7 +55,6 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    
     return dict(form=auth())
 
 
