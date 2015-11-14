@@ -31,7 +31,6 @@ def profile():
 
 @auth.requires_login()
 def createEvent():
-     redirect(URL('showEvent', args=[4]))
     form = SQLFORM(db.events)
     form.vars.ownerOfEvent = session.auth.user.id
     if form.process().accepted:
@@ -47,8 +46,19 @@ def setEventTags():
     return dict(form=form)
 
 def showEvent():
-    event = db(db.events.id == request.args[0]).select()[0]
+    event = db(db.events.auth_user == request.args[0]).select()
     return locals();
+
+@auth.requires_login()
+def eventView():
+    ##db(db.userTag.auth_user==session.auth.user.id).select()
+    tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
+    events = []
+    #for tag in tags:
+    #    events += db(db.events.tag == tag.tagName).select(db.events.eventName)
+    
+    return locals()
+
 
 def user():
     """

@@ -46,17 +46,12 @@ def setEventTags():
     return dict(form=form)
 
 def showEvent():
-    event = db(db.events.auth_user == request.args[0]).select()
+    event = db(db.events.auth_user == request.args[0]).select()[0]
     return locals();
 
 @auth.requires_login()
 def eventView():
-    ##db(db.userTag.auth_user==session.auth.user.id).select()
-    tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
-    events = []
-    #for tag in tags:
-    #    events += db(db.events.tag == tag.tagName).select(db.events.eventName)
-    
+    db(db.userTag.auth_user==session.auth.user.id).select()[0]
     return locals()
 
 
