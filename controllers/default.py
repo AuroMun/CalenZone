@@ -29,15 +29,26 @@ def profile():
         response.flash = T("Tag Added!")
     return dict(form=form, tags=tags)
 
+@auth.requires_login()
 def createEvent():
+    redirect(URL('showEvent', args=[4]))
     form = SQLFORM(db.events)
+    form.vars.ownerOfEvent = session.auth.user.id
     if form.process().accepted:
         response.flash = T("Event Created!")
+        redirect(URL('showEvent', args=[4]))
     return dict(form=form)
-    
+
+@auth.requires_login()
 def setEventTags():
     form = SQLFORM(db.eventTag)
+    if form.process().accepted:
+        response.flash = T("Tag added!")
     return dict(form=form)
+
+def showEvent():
+    event = db(db.events.id == request.args[0]).select()[0]
+    return locals();
 
 def user():
     """
