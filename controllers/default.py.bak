@@ -23,11 +23,19 @@ def index():
 def profile():
     form = SQLFORM(db.userTag)
     #dn=db(db.auth_user.id==request.args[0]).select()
-    tags = db(db.auth_user.id==db.userTag.auth_user).select()
+    tags = db(db.auth_user.id==db.userTag.auth_user and db.tag.id==db.userTag.tag).select(db.auth_user.email, db.tag.tagName)
     form.vars.auth_user = session.auth.user.id
     if form.process().accepted:
         response.flash = T("Tag Added!")
     return dict(form=form, tags=tags)
+
+def createEvent():
+    form = SQLFORM(db.events)
+    return dict(form=form)
+    
+def setEventTags():
+    form = SQLFORM(db.eventTag)
+    return dict(form=form)
 
 def user():
     """
@@ -45,7 +53,6 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    
     return dict(form=auth())
 
 
