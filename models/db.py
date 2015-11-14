@@ -85,6 +85,7 @@ db.define_table('events',
                 Field('startAt', 'datetime'),
                 Field('endAt', 'datetime'),
                 Field('venue', 'string'),
+                Field('description', 'text'),
                 Field('ownerOfEvent', db.auth_user, writable=False),
                 Field('typeOfEvent', 'string', requires = IS_IN_SET(['Academic', 'Cultural'])),
                 format='%(eventName)s')
