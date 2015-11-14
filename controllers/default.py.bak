@@ -55,8 +55,8 @@ def eventView():
     tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
     events = []
     blah = tags[0]
-    for tag in tags:
-        events = db(db.eventTag.tag == tag).select(db.events.eventName)
+    for taga in tags:
+        events = db(db.eventTag.tag == taga).select(db.events.eventName)
     return locals()
 
 
