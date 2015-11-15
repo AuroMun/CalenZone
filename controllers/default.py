@@ -71,14 +71,15 @@ def eventView():
     events = db(db.userTag.auth_user==session.auth.user.id and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select(db.events.eventName, db.events.id, db.events.startAt, db.events.endAt, db.events.typeOfEvent, distinct=True)
     #events[0].typeOfEvent="SADASDASDASFASGSGDJ"
     for event in events:
+        event["title"] = event["eventName"]
         if event.typeOfEvent == 'Academic':
             event["class"] = "event-important"
         event["url"] = URL('showDes', args=[event.id])
-        event["startAt"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()
-        event["endAt"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()
+        event["start"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
+        event["end"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
         #event["url"] = event.eventName
 
-    return dict(events=events)
+    return dict(success=1, result=events)
 
 
 def user():
