@@ -226,3 +226,11 @@
 [2015-11-15 12:55:39] EDIT CalenZone/controllers/default.py: 0
 [2015-11-15 12:56:28] EDIT CalenZone/controllers/default.py: 1
 [2015-11-15 12:56:42] EDIT CalenZone/views/default/eventView.json: -5
+[2015-11-15 13:53:22] EDIT CalenZone/controllers/default.py: 5
+[2015-11-15 13:53:28] EDIT CalenZone/controllers/default.py: 0
+[2015-11-15 13:53:35] EDIT CalenZone/views/default/profile.html: 9
+[2015-11-15 13:53:37] EDIT CalenZone/views/default/profile.html: 0
+[2015-11-15 13:53:37] EDIT CalenZone/controllers/default.py: 0
+[2015-11-15 13:54:17] EDIT CalenZone/models/db.py: 0
+[2015-11-15 13:55:06] EDIT CalenZone/views/default/profile.html: 2
+[2015-11-15 13:55:18] EDIT CalenZone/views/default/profile.html: 0
