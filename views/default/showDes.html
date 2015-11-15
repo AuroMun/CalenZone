@@ -8,9 +8,10 @@
     {{=LI('Venue:   ', des.venue)}}
     {{pass}}
 </ul>
-
 {{if des.contact or des.link:}}
+<ul class="table table-striped well">
 {{=H1('Contact information')}}
 {{=LI('Phone number:   ', des.contact)}}
 {{=LI('Link: ', des.link)}}
+</ul>
 {{pass}}
