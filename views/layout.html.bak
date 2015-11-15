@@ -60,7 +60,7 @@
           </button>
             <a class="navbar-brand" href="#">Calendar Portal</a>
         </div>
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Home</a></li>
             <li class="active"><a href="{{=URL('createEvent')}}">Create Event</a></li>
         </ul>
