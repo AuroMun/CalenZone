@@ -64,7 +64,7 @@
             <li><a href="{{=URL('calendar')}}">Home</a></li>
             <li><a href="{{=URL('createEvent')}}">Create Event</a></li>
             <li><a href="{{=URL('profile')}}">My Events</a></li>
-            <li><a href="{{=URL('profile')}}">Edit my tags</a></li>
+            <li><a href="{{=URL('setEventTags')}}">Edit my tags</a></li>
         </ul>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -105,7 +105,7 @@
 
     </div>
 
-    {{block footer}} <!-- this is default footer -->      
+    {{block footer}} <!-- this is default footer -->
     <footer class="footer">
       <div class="container-fluid">
         <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}}</div>
