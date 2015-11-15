@@ -45,7 +45,7 @@
             </div>
         </ul>
 
-        <ul class="nav navbar-nav .pull-right">
+        <ul class="nav navbar-nav pull-right">
             <li> {{='auth' in globals() and auth.navbar('Welcome',mode='dropdown') or ''}}</li>
         </ul>
     </div>
@@ -105,8 +105,15 @@
                         list.html('');
 
                         $.each(events, function (key, val) {
+                            var y2k  = new Date(2000, 0, 1);
+                            var tmpe = val.startAt.split(" ")[0];
+                            var startDate = new Date(tmpe.split("-")[0], tmpe.split("-")[1], tmpe.split("-")[2]);
+                            var tmpe = val.endAt.split(" ")[0];
+                            var endDate = new Date(tmpe.split("-")[0], tmpe.split("-")[1], tmpe.split("-")[2]);
+                            var timeDiff = (endDate-startDate);
+                            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
                             $(document.createElement('li'))
-                                    .html('<a href="' + val.url + '"><div class="eventaa">' + val.title+ '</div></a>')
+                                    .html('<a href="' + val.url + '"><div class="eventaa">' + val.title + ", in " + diffDays + ' days</div></a>')
                                     .appendTo(list);
                         });
                         var options = {
