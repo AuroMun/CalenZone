@@ -5,6 +5,7 @@
     <script type="text/javascript" src="{{=URL('static','bower_components/underscore/underscore-min.js')}}"></script>
     <script type="text/javascript" src="{{=URL('static','bower_components/bootstrap-calendar/js/calendar.min.js')}}"></script>
     <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
+
 <div class="container">
     <div class="page-header">
         <h3>
@@ -22,7 +23,7 @@
         <button class="btn btn-warning" data-calendar-view="week">Week</button>
         <button class="btn btn-warning" data-calendar-view="day">Day</button>
     </div>
-
+    <a class="btn btn-primary" href="{{=URL('createEvent')}}">Create Event</a>
     <div id="calendar"></div>
 
 </div>
