@@ -106,16 +106,23 @@
 
                         $.each(events, function (key, val) {
                             var y2k  = new Date(2000, 0, 1);
-                            var tmpe = val.startAt.split(" ")[0];
-                            var startDate = new Date(tmpe.split("-")[0], tmpe.split("-")[1], tmpe.split("-")[2]);
-                            var tmpe = val.endAt.split(" ")[0];
+                            var tmpe = val.events.startAt.split(" ")[0];
+                            console.log(tmpe.split("-")[0]);
+                            var startDate = new Date(tmpe.split("-")[0], tmpe.split("-")[1]-1, tmpe.split("-")[2]);
+                            //startDate = new Date(2014, 0, 3, 0, 0, 0);
+                            console.log(startDate);
+                            var tmpe = val.events.endAt.split(" ")[0];
                             var endDate = new Date(tmpe.split("-")[0], tmpe.split("-")[1], tmpe.split("-")[2]);
                             var today = new Date()
+                            console.log(today);
+                            console.log(startDate);
                             var timeDiff = (startDate-today);
-                            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); 
+                            var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                            if(diffDays>=0){
                             $(document.createElement('li'))
                                     .html('<a href="' + val.url + '"><div class="eventaa">' + val.title + ", in " + diffDays + ' days</div></a>')
                                     .appendTo(list);
+                            }
                         });
                         var options = {
                             valueNames: ['eventaa']
