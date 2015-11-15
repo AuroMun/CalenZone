@@ -43,6 +43,7 @@ def createEvent():
     form.vars.ownerOfEvent = session.auth.user.id
     if form.process().accepted:
         response.flash = T("Event Created!")
+        redirect(URL('setEventTags'))
     return dict(form=form)
 
 @auth.requires_login()
@@ -79,6 +80,8 @@ def eventView():
         event["title"] = event["eventName"]
         if event.typeOfEvent == 'Academic':
             event["class"] = "event-important"
+        if event.typeOfEvent == 'Cultural':
+            event["class"] = "event-info"
         event["url"] = URL('showDes.html', args=[event.id])
         event["start"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
         event["end"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
