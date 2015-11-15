@@ -53,6 +53,9 @@ def showDes():
     des = db(db.events.id == request.args[0]).select(db.events.description)[0]
     return locals()
 
+def calendar():
+    return dict(name="ho")
+
 @auth.requires_login()
 def eventView():
     ##db(db.userTag.auth_user==session.auth.user.id).select()
