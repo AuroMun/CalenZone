@@ -74,11 +74,11 @@ def eventView():
         if event.typeOfEvent == 'Academic':
             event["class"] = "event-important"
         event["url"] = URL('showDes', args=[event.id])
-        event["startAt"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()
-        event["endAt"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()
+        event["start"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
+        event["end"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
         #event["url"] = event.eventName
 
-    return locals()
+    return dict(success=1, result=events)
 
 
 def user():

@@ -1,5 +1,1 @@
-{
-    "success": 1,
-    "result": 
-[{"title": "First", "start": 1447849763000.0, "typeOfEvent": "Cultural", "end": 1447936167000.0, "url": "/CalenZone/default/showDes.json/5", "id": 5}, {"eventName": "Math Tutorial", "startAt": 1447788549.0, "typeOfEvent": "Academic", "endAt": 1447788553.0, "id": 1, "url": "/CalenZone/default/showDes.json/1", "class": "event-important"}, {"eventName": "OSDG Hackathon", "startAt": 1447529441.0, "typeOfEvent": "Cultural", "endAt": 1447615844.0, "url": "/CalenZone/default/showDes.json/3", "id": 3}, {"eventName": "Open Quiz", "startAt": 1448479819.0, "typeOfEvent": "Cultural", "endAt": 1448479822.0, "url": "/CalenZone/default/showDes.json/2", "id": 2}]
-}
+{{from gluon.serializers import json}}{{=XML(json(response._vars))}}
