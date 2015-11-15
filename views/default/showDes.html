@@ -12,5 +12,5 @@
 {{if des.contact or des.link:}}
 {{=H1('Contact information')}}
 {{=LI('Phone number:   ', des.contact)}}
-{{=LI('Link: ', des.link)}}
+{{=LI('Link: ', A(des.link, _href=des.link, _target='new'))}}
 {{pass}}
