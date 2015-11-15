@@ -19,6 +19,7 @@ def index():
     return auth.wiki()
     """
     response.flash = T("Welcome to IIIT Calendar Portal")
+    redirect(URL('calendar'))
     return dict(title='Please Log in')
 
 @auth.requires_login()
@@ -55,8 +56,9 @@ def showDes():
     des = db(db.events.id == request.args[0]).select(db.events.description)[0]
     return locals()
 
+@auth.requires_login()
 def calendar():
-    return dict(name="ho")
+    return locals()
 
 @auth.requires_login()
 def eventView():
