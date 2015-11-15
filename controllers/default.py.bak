@@ -18,8 +18,9 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+    response.flash = T("Welcome to IIIT Calendar Portal")
+    #redirect(URL('calendar'))
+    return dict(title='Please Log in')
 
 @auth.requires_login()
 def profile():
@@ -56,6 +57,10 @@ def showDes():
     return locals()
 
 @auth.requires_login()
+def calendar():
+    return locals()
+
+@auth.requires_login()
 def eventView():
     ##db(db.userTag.auth_user==session.auth.user.id).select()
     #tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
@@ -70,6 +75,7 @@ def eventView():
             event["class"] = "event-important"
         event["url"] = URL('showDes', args=[event.id])
         event["startAt"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()
+        event["endAt"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()
         #event["url"] = event.eventName
 
     return locals()
