@@ -26,11 +26,16 @@ def index():
 def profile():
     form = SQLFORM(db.userTag)
     #dn=db(db.auth_user.id==request.args[0]).select()
-    tags = db(db.auth_user.id==db.userTag.auth_user and db.tag.id==db.userTag.tag).select(db.auth_user.email, db.tag.tagName)
+    #tags = db(db.auth_user.id==db.userTag.auth_user and db.tag.id==db.userTag.tag).select(db.auth_user.email, db.tag.tagName)
+    temp = db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
+    mytags = []
+    mytags += [db.tag[i.tag].tagName for i in temp]
     form.vars.auth_user = session.auth.user.id
+    grid = SQLFORM.grid(db.events.ownerOfEvent == session.auth.user.id)
     if form.process().accepted:
         response.flash = T("Tag Added!")
-    return dict(form=form, tags=tags)
+        redirect(URL())
+    return locals()
 
 @auth.requires_login()
 def createEvent():
