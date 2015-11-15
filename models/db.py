@@ -89,7 +89,7 @@ db.define_table('events',
                 Field('description', 'text'),
                 Field('link', 'string'),
                 Field('ownerOfEvent', db.auth_user, readable=False, writable=False),
-                Field('typeOfEvent', 'string', requires = IS_IN_SET(['Academic', 'Cultural'])),
+                Field('typeOfEvent', 'string', requires = IS_IN_SET(['Academic', 'Cultural', 'Sports', 'Holiday', 'Other', 'Urgent'])),
                 format='%(eventName)s')
 db.define_table('userTag',
                 Field('auth_user', db.auth_user, readable=False, writable=False),
