@@ -60,8 +60,8 @@ def showEvent():
     return locals();
 
 def showDes():
-    des = db(db.events.id == request.args[0]).select(db.events.description)[0]
-    return locals()
+    des = db(db.events.id == request.args[0]).select(db.events.description, db.events.startAt, db.events.endAt, db.events.link, db.events.contact, db.events.eventName, db.events.venue)[0]
+    return dict(des=des)
 
 @auth.requires_login()
 def calendar():
@@ -79,6 +79,16 @@ def eventView():
     for event in events:
         event["title"] = event["eventName"]
         if event.typeOfEvent == 'Academic':
+            event["class"] = "event-info"
+        if event.typeOfEvent == 'Cultural':
+            event["class"] = "event-success"
+        if event.typeOfEvent == 'Sports':
+            event["class"] = "event-special"
+        if event.typeOfEvent == 'Holiday':
+            event["class"] = "event-warning"
+        if event.typeOfEvent == 'Other':
+            event["class"] = "event-reverse"
+        if event.typeOfEvent == 'Urgent':
             event["class"] = "event-important"
         event["url"] = URL('showDes.html', args=[event.id])
         event["start"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
