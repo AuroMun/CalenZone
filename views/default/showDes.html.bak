@@ -1,2 +1,10 @@
-<h1>This is the default/showDes.html template</h1>
-{{=BEAUTIFY(response._vars)}}
+<h1 style="text-align:center">{{=des.eventName}}</h1>
+{{=des.description}}
+{{=H5('Starts At:   ', des.startAt)}}
+{{=H5('Ends At:   ', des.endAt)}}
+{{=H5('Venue:   ', des.venue)}}
+{{if des.contact:}}
+{{=H3('Contact information')}}
+{{=H5('Phone number:   ', des.contact)}}
+{{=H5('Link: ', des.link)}}
+{{pass}}

@@ -60,8 +60,8 @@ def showEvent():
     return locals();
 
 def showDes():
-    des = db(db.events.id == request.args[0]).select(db.events.description)[0]
-    return locals()
+    des = db(db.events.id == request.args[0]).select(db.events.description, db.events.startAt, db.events.endAt, db.events.link, db.events.contact, db.events.eventName, db.events.venue)[0]
+    return dict(des=des)
 
 @auth.requires_login()
 def calendar():
