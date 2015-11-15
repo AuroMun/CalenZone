@@ -80,6 +80,11 @@ def eventView():
     #events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
     mao = events[0].events.eventName
     for event in events:
+        event.id=event.events["id"]
+        event.eventName=event.events["eventName"]
+        event.startAt=event.events["startAt"]
+        event.endAt=event.events["endAt"]
+        event.typeOfEvent=event.events["typeOfEvent"]
         event["title"] = event.events["eventName"]
         if event.events.typeOfEvent == 'Academic':
             event["class"] = "event-info"
