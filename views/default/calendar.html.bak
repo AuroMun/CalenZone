@@ -54,7 +54,7 @@
         var calendar = $("#calendar").calendar(
             {
                 modal: "#events-modal",
-                tmpl_path: "{{=URL('static')}}/bower_components/bootstrap-calendar/tmpls/",
+                tmpl_path: "{{=URL('static','bower_components/bootstrap-calendar/tmpls/')}}",
                 view: 'month',
                 onAfterViewLoad: function (view) {
                     $('.page-header h3').text(this.getTitle());

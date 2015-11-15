@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
+{{extend 'layout.html'}}
     <link rel="stylesheet" href="{{=URL('static', 'bower_components/bootstrap/docs/assets/css/bootstrap.css')}}">
     <link rel="stylesheet" href="{{=URL('static', '/bower_components/bootstrap-calendar/css/calendar.css')}}">
     <script type="text/javascript" src="{{=URL('static','bower_components/jquery/jquery.min.js')}}"></script>
@@ -10,9 +6,6 @@
     <script type="text/javascript" src="{{=URL('static','bower_components/underscore/underscore-min.js')}}"></script>
     <script type="text/javascript" src="{{=URL('static','bower_components/bootstrap-calendar/js/calendar.min.js')}}"></script>
     <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
-
-</head>
-<body>
 <div class="container">
     <div class="page-header">
         <h3>
@@ -103,5 +96,3 @@
         });
     });
 </script>
-</body>
-</html>
