@@ -78,7 +78,7 @@ def eventView():
         event["endAt"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()
         #event["url"] = event.eventName
 
-    return locals()
+    return dict(events=events)
 
 
 def user():
