@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
 <h1 style="text-align:center">{{=des.eventName}}</h1>
 {{=des.description}}
-<ul class="table table-bordered table-striped">
+<ul class="table table-striped well">
     {{=LI('Starts At:   ', des.startAt)}}
     {{=LI('Ends At:   ', des.endAt)}}
     {{if des.venue:}}
