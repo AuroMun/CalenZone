@@ -43,15 +43,17 @@ def createEvent():
     form.vars.ownerOfEvent = session.auth.user.id
     if form.process().accepted:
         response.flash = T("Event Created!")
-        redirect(URL('showEvent', args=[4]))
+        redirect(URL('setEventTags'))
     return dict(form=form)
 
 @auth.requires_login()
 def setEventTags():
-    form = SQLFORM(db.eventTag)
-    if form.process().accepted:
-        response.flash = T("Tag added!")
-    return dict(form=form)
+    myevents = db(db.events.ownerOfEvent == session.auth.user.id).select(db.events.id)
+    temp = [i for i in myevents]
+    form = SQLFORM.grid(db.eventTag.events.belongs(temp))
+    #if form.process().accepted:
+    #    response.flash = T("Tag added!")
+    return locals()
 
 def showEvent():
     event = db(db.events.auth_user == request.args[0]).select()[0]
