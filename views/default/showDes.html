@@ -1,17 +1,31 @@
 <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
 <h1 style="text-align:center">{{=des.eventName}}</h1>
+<blockquote>
 {{=des.description}}
-<ul class="well">
-    {{=LI('Starts At:   ', des.startAt)}}
-    {{=LI('Ends At:   ', des.endAt)}}
+</blockquote>
+<table class="table table-striped">
+    <tr>
+    {{=TD('Starts At:')}}{{=TD(des.startAt)}}
+    </tr>
+    <tr>
+    {{=TD('Ends At:')}}{{=TD(des.endAt)}}
+    </tr>
     {{if des.venue:}}
-    {{=LI('Venue:   ', des.venue)}}
+    <tr>
+    {{=TD('Venue:')}}{{=TD(des.venue)}}
+    </tr>
     {{pass}}
-</ul>
+</table>
 {{if des.contact or des.link:}}
-{{=H1('Contact information')}}
-<ul class="well">
-{{=LI('Phone number:   ', des.contact)}}
-{{=LI('Link: ', A(des.link, _href=des.link, _target='new'))}}
-</ul>
-{{pass}}
+    <h3>Contact Information
+</h3>
+<table class="table table-striped">
+
+    <tr>
+        {{=TD('Phone Number:')}}{{=TD(des.contact)}}
+    </tr>
+    <tr>
+        {{=TD('Link: ')}}{{=TD(A(des.link, _href=des.link, _target='new'))}}
+    </tr>
+    {{pass}}
+</table>
