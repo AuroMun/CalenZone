@@ -1,5 +1,5 @@
 (dp1
-S'startat'
+S'startAt'
 p2
 (dp3
 S'length'
@@ -39,7 +39,7 @@ I00
 sg10
 S'text'
 p15
-ssS'typeofevent'
+ssS'typeOfEvent'
 p16
 (dp17
 g4
@@ -72,7 +72,7 @@ sg9
 I00
 sg10
 g19
-ssS'endat'
+ssS'endAt'
 p23
 (dp24
 g4
@@ -88,7 +88,7 @@ sg9
 I00
 sg10
 g11
-ssS'ownerofevent'
+ssS'ownerOfEvent'
 p26
 (dp27
 g4
@@ -105,7 +105,7 @@ I00
 sg10
 S'reference auth_user'
 p29
-ssS'eventname'
+ssS'eventName'
 p30
 (dp31
 g4
@@ -168,6 +168,5 @@ p41
 sg9
 I00
 sg10
-S'id'
-p42
+g39
 ss.
