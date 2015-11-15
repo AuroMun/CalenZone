@@ -9,16 +9,17 @@
         src="{{=URL('static','bower_components/bootstrap-calendar/js/calendar.min.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
 <style>
-input {
-  border:solid 1px #ccc;
-  border-radius: 5px;
-  padding:7px 14px;
-  margin-bottom:10px
-}
-input:focus {
-  outline:none;
-  border-color:#aaa;
-}
+    input {
+        border: solid 1px #ccc;
+        border-radius: 5px;
+        padding: 7px 14px;
+        margin-bottom: 10px
+    }
+
+    input:focus {
+        outline: none;
+        border-color: #aaa;
+    }
 </style>
 
 <div class="navbar">
@@ -30,18 +31,18 @@ input:focus {
         </ul>
         <ul class="nav">
             <div class="btn-group">
-            <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
-            <button class="btn" data-calendar-nav="today">Today</button>
-            <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-warning" data-calendar-view="year">Year</button>
-            <button class="btn btn-warning active" data-calendar-view="month">Month</button>
-            <button class="btn btn-warning" data-calendar-view="week">Week</button>
-            <button class="btn btn-warning" data-calendar-view="day">Day</button>
-        </div>
+                <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
+                <button class="btn" data-calendar-nav="today">Today</button>
+                <button class="btn btn-primary" data-calendar-nav="next">Next >></button>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-warning" data-calendar-view="year">Year</button>
+                <button class="btn btn-warning active" data-calendar-view="month">Month</button>
+                <button class="btn btn-warning" data-calendar-view="week">Week</button>
+                <button class="btn btn-warning" data-calendar-view="day">Day</button>
+            </div>
         </ul>
-        
+
         <ul class="nav navbar-nav navbar-right">
             <li> {{='auth' in globals() and auth.navbar('Welcome',mode='dropdown') or ''}}</li>
         </ul>
@@ -54,23 +55,19 @@ input:focus {
         </h3>
     </div>
     <div class="row">
-    <div class="span8">
-    <div id="calendar"></div>
-    </div>
-    <div class="span4" style="padding-top:5%;max-height:100%;height:auto;overflow:auto">
-        <div class="well" id="events">
-        <h3>
-            Events
-        </h3>
-        <input class="search" placeholder="Search" />
-        <ul class="list">
-            <li><div class="eventaa">But</div></li>
-            <li><div class="eventaa">First</div></li>
-            <li><div class="eventaa">Lemme</div></li>
-            <li><div class="eventaa">Take a selfie</div></li>
-        </ul>
+        <div class="span8">
+            <div id="calendar"></div>
         </div>
-    </div>
+        <div class="span4" style="padding-top:5%;max-height:100%;height:auto;overflow:auto">
+            <div class="well" id="events">
+                <h3>
+                    Events
+                </h3>
+                <input class="search" placeholder="Search"/>
+                <ul id="eventlist" class="list nav nav-list">
+                </ul>
+            </div>
+        </div>
     </div>
 
 
@@ -97,6 +94,25 @@ input:focus {
                     modal: "#events-modal",
                     tmpl_path: "{{=URL('static','bower_components/bootstrap-calendar/tmpls/')}}",
                     view: 'month',
+                    onAfterEventsLoad: function (events) {
+                        console.log(events);
+                        if (!events) {
+                            return;
+                        }
+                        var list = $('#eventlist');
+                        list.html('');
+
+                        $.each(events, function (key, val) {
+                            $(document.createElement('li'))
+                                    .html('<a href="' + val.url + '"><div class="eventaa">' + val.title+ '</div></a>')
+                                    .appendTo(list);
+                        });
+                        var options = {
+                            valueNames: ['eventaa']
+                        };
+
+                        var userList = new List('events', options);
+                    },
                     onAfterViewLoad: function (view) {
                         $('.page-header h3').text(this.getTitle());
                         $('.btn-group button').removeClass('active');
@@ -118,10 +134,5 @@ input:focus {
             });
         });
     });
-    
-    var options = {
-  valueNames: [ 'eventaa' ]
-};
 
-var userList = new List('events', options);
 </script>
