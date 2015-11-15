@@ -7,6 +7,8 @@
 ## - user is required for authentication and authorization
 ## - download is for downloading files uploaded in the db (does streaming)
 #########################################################################
+import time
+import datetime
 
 def index():
     """
@@ -61,11 +63,15 @@ def eventView():
     #blah = tags[0]
     #for taga in tags:
     #    events = db(db.eventTag.tag == taga).select(db.events.eventName)
-    events = db(db.userTag.auth_user==session.auth.user.id and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select(db.events.eventName, db.events.startAt, db.events.endAt, db.events.typeOfEvent, distinct=True)
+    events = db(db.userTag.auth_user==session.auth.user.id and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select(db.events.eventName, db.events.id, db.events.startAt, db.events.endAt, db.events.typeOfEvent, distinct=True)
     #events[0].typeOfEvent="SADASDASDASFASGSGDJ"
     for event in events:
         if event.typeOfEvent == 'Academic':
             event["class"] = "event-important"
+        event["url"] = URL('showDes', args=[event.id])
+        event["startAt"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()
+        event["endAt"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()
+        #event["url"] = event.eventName
 
     return locals()
 
