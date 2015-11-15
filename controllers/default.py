@@ -79,6 +79,16 @@ def eventView():
     for event in events:
         event["title"] = event["eventName"]
         if event.typeOfEvent == 'Academic':
+            event["class"] = "event-info"
+        if event.typeOfEvent == 'Cultural':
+            event["class"] = "event-success"
+        if event.typeOfEvent == 'Sports':
+            event["class"] = "event-special"
+        if event.typeOfEvent == 'Holiday':
+            event["class"] = "event-warning"
+        if event.typeOfEvent == 'Other':
+            event["class"] = "event-reverse"
+        if event.typeOfEvent == 'Urgent':
             event["class"] = "event-important"
         event["url"] = URL('showDes.html', args=[event.id])
         event["start"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
