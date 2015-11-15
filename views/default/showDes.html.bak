@@ -9,13 +9,9 @@
     {{pass}}
 </ul>
 {{if des.contact or des.link:}}
-<ul class="table table-striped well">
 {{=H1('Contact information')}}
+<ul class="table table-striped well">
 {{=LI('Phone number:   ', des.contact)}}
-<<<<<<< HEAD
-{{=LI('Link: ', des.link)}}
-</ul>
-=======
 {{=LI('Link: ', A(des.link, _href=des.link, _target='new'))}}
->>>>>>> origin/master
+</ul>
 {{pass}}

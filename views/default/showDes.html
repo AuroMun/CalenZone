@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="{{=URL('static','css/bootstrap.min.css')}}"/>
 <h1 style="text-align:center">{{=des.eventName}}</h1>
 {{=des.description}}
-<ul class="table table-striped well">
+<ul class="well">
     {{=LI('Starts At:   ', des.startAt)}}
     {{=LI('Ends At:   ', des.endAt)}}
     {{if des.venue:}}
@@ -9,8 +9,8 @@
     {{pass}}
 </ul>
 {{if des.contact or des.link:}}
-<ul class="table table-striped well">
 {{=H1('Contact information')}}
+<ul class="well">
 {{=LI('Phone number:   ', des.contact)}}
 {{=LI('Link: ', A(des.link, _href=des.link, _target='new'))}}
 </ul>
