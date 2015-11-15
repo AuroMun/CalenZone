@@ -86,11 +86,11 @@ db.define_table('events',
                 Field('endAt', 'datetime'),
                 Field('venue', 'string'),
                 Field('description', 'text'),
-                Field('ownerOfEvent', db.auth_user, writable=False),
+                Field('ownerOfEvent', db.auth_user, readable=False, writable=False),
                 Field('typeOfEvent', 'string', requires = IS_IN_SET(['Academic', 'Cultural'])),
                 format='%(eventName)s')
 db.define_table('userTag',
-                Field('auth_user', db.auth_user, writable=False),
+                Field('auth_user', db.auth_user, readable=False, writable=False),
                 Field('tag', db.tag))
 db.define_table('eventTag',
                 Field('tag', db.tag),
