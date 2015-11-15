@@ -75,27 +75,30 @@ def eventView():
     #blah = tags[0]
     #for taga in tags:
     #    events = db(db.eventTag.tag == taga).select(db.events.eventName)
-    events = db(db.userTag.auth_user==session.auth.user.id and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select(db.events.eventName, db.events.id, db.events.startAt, db.events.endAt, db.events.typeOfEvent, distinct=True)
+    cond1 = (db.userTag.auth_user==session.auth.user.id)
+    events = db(db.userTag.tag==db.eventTag.tag)(db.userTag.auth_user==session.auth.user.id)(db.events.id == db.eventTag.events).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt, db.events.endAt, db.events.typeOfEvent, db.eventTag.tag, distinct=True)
+    #events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
+    mao = events[0].events.eventName
     for event in events:
-        event["title"] = event["eventName"]
-        if event.typeOfEvent == 'Academic':
+        event["title"] = event.events["eventName"]
+        if event.events.typeOfEvent == 'Academic':
             event["class"] = "event-info"
-        if event.typeOfEvent == 'Cultural':
+        if event.events.typeOfEvent == 'Cultural':
             event["class"] = "event-success"
-        if event.typeOfEvent == 'Sports':
+        if event.events.typeOfEvent == 'Sports':
             event["class"] = "event-special"
-        if event.typeOfEvent == 'Holiday':
+        if event.events.typeOfEvent == 'Holiday':
             event["class"] = "event-warning"
-        if event.typeOfEvent == 'Other':
+        if event.events.typeOfEvent == 'Other':
             event["class"] = "event-reverse"
-        if event.typeOfEvent == 'Urgent':
+        if event.events.typeOfEvent == 'Urgent':
             event["class"] = "event-important"
-        event["url"] = URL('showDes.html', args=[event.id])
-        event["start"]=(event["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
-        event["end"]=(event["endAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
+        event["url"] = URL('showDes.html', args=[event.events.id])
+        event["start"]=(event.events["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
+        event["end"]=(event.events["endAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
         #event["url"] = event.eventName
-
-    return dict(success=1, result=events)
+    
+    return dict(success=1, result=events, mao = mao)
 
 
 def user():
