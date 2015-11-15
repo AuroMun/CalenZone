@@ -18,8 +18,8 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    response.flash = T("Hello World")
-    return dict(message=T('Welcome to web2py!'))
+    response.flash = T("Welcome to IIIT Calendar Portal")
+    return dict(title='Please Log in')
 
 @auth.requires_login()
 def profile():
@@ -54,6 +54,9 @@ def showEvent():
 def showDes():
     des = db(db.events.id == request.args[0]).select(db.events.description)[0]
     return locals()
+
+def calendar():
+    return dict(name="ho")
 
 @auth.requires_login()
 def eventView():
