@@ -1,12 +1,12 @@
 {{extend 'layout.html'}}
 <h1 style="text-align:center">My Profile</h1>
 {{if len(mytags)>0:}}
-{{=H3("My tags")}}
+{{=H3("My groups:")}}
 {{pass}}
 {{for i in mytags:}}
 {{=LI(i)}}
 {{pass}}
-{{=H3("Add a new tag")}}
+{{=H3("Join a group")}}
 <div style="text-align:left; width:20em;">
     {{=form}}
 </div>

@@ -20,12 +20,15 @@
     <h3>Contact Information
 </h3>
 <table class="table table-striped">
-
+    {{if des.contact:}}
     <tr>
         {{=TD('Phone Number:')}}{{=TD(des.contact)}}
     </tr>
+    {{pass}}
+    {{if des.link:}}
     <tr>
         {{=TD('Link: ')}}{{=TD(A(des.link, _href=des.link, _target='new'))}}
     </tr>
+    {{pass}}
     {{pass}}
 </table>
