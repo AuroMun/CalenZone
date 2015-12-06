@@ -25,9 +25,7 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), []),
-    (T('My events'), False, URL('default', 'index'), [])
-    (T('Create Event'), False, URL('default', 'createEvent'), [])
+    (T('Home'), False, URL('default', 'index'), [])
 ]
 
 DEVELOPMENT_MENU = True
@@ -137,4 +135,4 @@ def _():
         ]
 if DEVELOPMENT_MENU: _()
 
-if "auth" in locals(): auth.wikimenu()
+if "auth" in locals(): auth.wikimenu() 
