@@ -23,22 +23,18 @@
 	<label><input type="radio" name="visible">Private</label>
 </div>
 </div>
-<label>Start time:</label>
-<div class="form-group">
-    <div class='input-group date' id='datetimepicker1'>
-        <input type='text' class="form-control" />
-        <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
-        </span>
-    </div>
+<div class="form-group" id="events_startAt__row">
+<label for="events_startAt" id="events_startAt__label">Starts At:</label>
+<input class="form-control datetime" id="events_startAt" name="startAt" type="text" value="" /><span class="help-block"></span>
 </div>
-</form>
-<label>Groups:</label>
-<input type="text" class="form-control" id="tokenfield" value="All" />
 <div class="form-group">
-    <label>Repeat?</label>
+<label for="tokenfield">Groups:</label>
+<input type="text" class="form-control" id="tokenfield" value="All" />
+</div>
+<div class="form-group">
+    <label for="repeat">Repeat?</label>
     <div class="checkbox">
-        <label><input type="checkbox" value="1">If yes, daily/weekly/monthly</label>
+        <label><input type="checkbox" value="1" id="repeat">If yes, daily/weekly/monthly</label>
     </div>
 </div>
 <div class="form-group">
