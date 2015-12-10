@@ -16,10 +16,12 @@
 	<label for="description">Description:</label>
 	<textarea class="form-control" id="description"></textarea>
 </div>
+<div class="form-group">
 <label>Visibity:</label>
-<div class="radio">
+<div class="radio" id="vis">
 	<label><input type="radio" name="visible">Public</label>
 	<label><input type="radio" name="visible">Private</label>
+</div>
 </div>
 <label>Start time:</label>
 <div class="form-group">
@@ -31,9 +33,8 @@
     </div>
 </div>
 </form>
+<label>Groups:</label>
 <input type="text" class="form-control" id="tokenfield" value="red,green,blue" />
-
-
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker();
