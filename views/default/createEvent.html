@@ -1,8 +1,10 @@
 {{extend 'layout.html'}}
+<link href="{{=URL('static','bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css')}}">
+<link rel="stylesheet" href="{{=URL('static','bower_components/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css')}}">
 <script type="text/javascript" src="{{=URL('static','js/list.js')}}"></script>
-<script type="text/javascript"
+<script type="text/javascript" src="{{=URL('static','bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{=URL('static','bower_components/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','bower_components/underscore/underscore-min.js')}}"></script>
-<script type="text/javascript"
 <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
 <h1>Create an event</h1>
 <form role="form">
@@ -29,9 +31,20 @@
     </div>
 </div>
 </form>
+<input type="text" class="form-control" id="tokenfield" value="red,green,blue" />
+
 
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker();
     });
+</script>
+<script>
+    $('#tokenfield').tokenfield({
+        autocomplete: {
+            source: ['red','blue','green','yellow','violet','brown','purple','black','white'],
+            delay: 100
+        },
+        showAutocompleteOnFocus: true
+    })
 </script>
