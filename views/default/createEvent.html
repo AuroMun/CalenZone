@@ -1,3 +1,32 @@
 {{extend 'layout.html'}}
 <h1>Create an event</h1>
-{{=form}}
+<form role="form">
+<div class="form-group">
+	<label for="name">Event Name:</label>
+	<input type="text" class="form-control" id="name">
+</div>
+<div class="form-group">
+	<label for="description">Description:</label>
+	<textarea class="form-control" id="description"></textarea>
+</div>
+<label>Visibity:</label>
+<div class="radio">
+	<label><input type="radio" name="visible">Public</label>
+	<label><input type="radio" name="visible">Private</label>
+</div>
+<label>Start time:</label>
+<div class="form-group">
+    <div class='input-group date' id='datetimepicker1'>
+        <input type='text' class="form-control" />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
