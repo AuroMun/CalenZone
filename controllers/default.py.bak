@@ -80,6 +80,11 @@ def eventView():
     #events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
     mao = events[0].events.eventName
     for event in events:
+        event.id=event.events["id"]
+        event.eventName=event.events["eventName"]
+        event.startAt=event.events["startAt"]
+        event.endAt=event.events["endAt"]
+        event.typeOfEvent=event.events["typeOfEvent"]
         event["title"] = event.events["eventName"]
         if event.events.typeOfEvent == 'Academic':
             event["class"] = "event-info"
@@ -137,3 +142,15 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
+
+def api():
+    from gluon.contrib.hypermedia import Collection
+    rules = {
+        'events': {
+        'GET':{'query':None,'fields':['id', 'eventName', 'startAt', 'endAt', 'venue', 'contact', 'description', 'link','typeOfEvent']},
+        'POST':{'query':None,'fields':['eventName']},
+        'PUT':{'query':None,'fields':['eventName']},
+        'DELETE':{'query':None},
+        }
+    }
+    return Collection(db).process(request,response,rules)

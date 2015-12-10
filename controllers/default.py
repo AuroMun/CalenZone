@@ -142,3 +142,15 @@ def call():
     supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv
     """
     return service()
+
+def api():
+    from gluon.contrib.hypermedia import Collection
+    rules = {
+        'events': {
+        'GET':{'query':None,'fields':['id', 'eventName', 'startAt', 'endAt', 'venue', 'contact', 'description', 'link', 'typeOfEvent']},
+        'POST':{'query':None,'fields':['eventName']},
+        'PUT':{'query':None,'fields':['eventName']},
+        'DELETE':{'query':None},
+        }
+    }
+    return Collection(db).process(request,response,rules)
