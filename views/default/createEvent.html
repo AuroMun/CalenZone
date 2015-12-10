@@ -1,5 +1,6 @@
 {{extend 'layout.html'}}
-<link rel="stylesheet" href="{{=URL('static','bower_components/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css')}}">
+<link rel="stylesheet"
+      href="{{=URL('static','bower_components/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css')}}">
 <link rel="stylesheet" href="{{=URL('static','bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css')}}">
 <script type="text/javascript" src="{{=URL('static','js/list.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -8,40 +9,59 @@
 <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
 <h1>Create an event</h1>
 <form role="form">
-<div class="form-group">
-	<label for="name">Event Name:</label>
-	<input type="text" class="form-control" id="name">
-</div>
-<div class="form-group">
-	<label for="description">Description:</label>
-	<textarea class="form-control" id="description"></textarea>
-</div>
-<div class="form-group">
-<label>Visibity:</label>
-<div class="radio" id="vis">
-	<label><input type="radio" name="visible">Public</label>
-	<label><input type="radio" name="visible">Private</label>
-</div>
-</div>
-<div class="form-group" id="events_startAt__row">
-<label for="events_startAt" id="events_startAt__label">Starts At:</label>
-<input class="form-control datetime" id="events_startAt" name="startAt" type="text" value="" /><span class="help-block"></span>
-</div>
-<div class="form-group">
-<label for="tokenfield">Groups:</label>
-<input type="text" class="form-control" id="tokenfield" value="All" />
-</div>
-<div class="form-group">
-    <label for="repeat">Repeat?</label>
-    <div class="checkbox">
-        <label><input type="checkbox" value="1" id="repeat">If yes, daily/weekly/monthly</label>
+    <div class="form-group">
+        <label for="name">Event Name:</label>
+        <input type="text" class="form-control" id="name">
     </div>
-</div>
-<div class="form-group">
-    <label for="location">Location:</label>
-    <input type="text" class="form-control" id="location">
-</div>
-<button type="submit" class="btn btn-default">Submit</button>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea class="form-control" id="description"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Visibity:</label>
+
+        <div class="radio" id="vis">
+            <label><input type="radio" name="visible">Public</label>
+            <label><input type="radio" name="visible">Private</label>
+        </div>
+    </div>
+    <div class="form-group" id="events_startAt__row">
+        <label for="events_startAt" id="events_startAt__label">Starts At:</label>
+        <input class="form-control datetime" id="events_startAt" name="startAt" type="text" value=""/><span
+            class="help-block"></span>
+    </div>
+
+    <label for="endCheck">End Time:</label>
+    <style>
+        #endCheck + #events_endAt__row{
+            display: none;
+        }
+        #endCheck:checked + #events_endAt__row{
+            display: inline;
+        }
+    </style>
+    <input type="checkbox" value="1" id="endCheck">Endtime?
+    <div class="form-group" id="events_endAt__row">
+        <label for="events_startAt" id="events_endAt__label">End At:</label>
+        <input class="form-control datetime" id="events_endAt" name="endAt" type="text" value=""/><span
+            class="help-block"></span>
+    </div>
+    <div class="form-group">
+        <label for="tokenfield">Groups:</label>
+        <input type="text" class="form-control" id="tokenfield" value="All"/>
+    </div>
+    <div class="form-group">
+        <label for="repeat">Repeat?</label>
+
+        <div class="checkbox">
+            <label><input type="checkbox" value="1" id="repeat">If yes, daily/weekly/monthly</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="location">Location:</label>
+        <input type="text" class="form-control" id="location">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
 </form><br>
 <script type="text/javascript">
     $(function () {
@@ -51,7 +71,7 @@
 <script>
     $('#tokenfield').tokenfield({
         autocomplete: {
-            source: ['All','Students','UG1','UG2','UG3','UG4','Staff','Life','ICS101'],
+            source: ['All', 'Students', 'UG1', 'UG2', 'UG3', 'UG4', 'Staff', 'Life', 'ICS101'],
             delay: 100
         },
         showAutocompleteOnFocus: true
