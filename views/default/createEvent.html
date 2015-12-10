@@ -9,10 +9,12 @@
 	<label for="description">Description:</label>
 	<textarea class="form-control" id="description"></textarea>
 </div>
+<div class="form-group">
 <label>Visibity:</label>
-<div class="radio">
+<div class="radio" id="vis">
 	<label><input type="radio" name="visible">Public</label>
 	<label><input type="radio" name="visible">Private</label>
+</div>
 </div>
 <label>Start time:</label>
 <div class="form-group">
@@ -23,7 +25,18 @@
         </span>
     </div>
 </div>
+<div class="form-group">
+<label>Repeat?</label>
+<div class="checkbox">
+<label><input type="checkbox" value="1">If yes, daily/weekly/monthly</label>
 </div>
+</div>
+<div class="form-group">
+    <label for="location">Location:</label>
+    <input type="text" class="form-control" id="location">
+</div>
+<button type="submit" class="btn btn-default">Submit</button>
+</form><br>
 
 <script type="text/javascript">
     $(function () {
