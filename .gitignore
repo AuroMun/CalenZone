@@ -1,3 +1,6 @@
+errors/
+sessions/
+.idea/
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
@@ -45,3 +48,5 @@ Temporary Items
 .apdisk
 
 *.log
+
+*.swp
