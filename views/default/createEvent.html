@@ -8,15 +8,16 @@
 <script type="text/javascript" src="{{=URL('static','bower_components/underscore/underscore-min.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
 <h1>Create an event</h1>
-<form role="form">
+{{=form.custom.begin}}
     <div class="form-group">
         <label for="name">Event Name:</label>
-        <input type="text" class="form-control" id="name">
+        {{=form.custom.widget.eventName}}
     </div>
     <div class="form-group">
         <label for="description">Description:</label>
-        <textarea class="form-control" id="description"></textarea>
+        {{=form.custom.widget.description}}
     </div>
+    <!--
     <div class="form-group">
         <label>Visibity:</label>
 
@@ -25,10 +26,10 @@
             <label><input type="radio" name="visible">Private</label>
         </div>
     </div>
+    -->
     <div class="form-group" id="events_startAt__row">
         <label for="events_startAt" id="events_startAt__label">Starts At:</label>
-        <input class="form-control datetime" id="events_startAt" name="startAt" type="text" value=""/><span
-            class="help-block"></span>
+        {{=form.custom.widget.startAt}}
     </div>
 
     <label for="endCheck">End Time:</label>
@@ -43,13 +44,13 @@
     <input type="checkbox" value="1" id="endCheck">Endtime?
     <div class="form-group" id="events_endAt__row">
         <label for="events_startAt" id="events_endAt__label">End At:</label>
-        <input class="form-control datetime" id="events_endAt" name="endAt" type="text" value=""/><span
-            class="help-block"></span>
+        {{=form.custom.widget.endAt}}
     </div>
     <div class="form-group">
         <label for="tokenfield">Groups:</label>
         <input type="text" class="form-control" id="tokenfield" value="All"/>
     </div>
+    <!--
     <div class="form-group">
         <label for="repeat">Repeat?</label>
 
@@ -57,12 +58,34 @@
             <label><input type="checkbox" value="1" id="repeat">If yes, daily/weekly/monthly</label>
         </div>
     </div>
+    -->
     <div class="form-group">
         <label for="location">Location:</label>
-        <input type="text" class="form-control" id="location">
+        {{=form.custom.widget.venue}}
     </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form><br>
+    <div class="form-group">
+        <label for="contact">Contact:</label>
+        {{=form.custom.widget.contact}}
+    </div>
+    <div class="form-group">
+        <label for="name">Website Link:</label>
+        {{=form.custom.widget.link}}
+    </div>
+     <div class="form-group" id="events_typeOfEvent__row">
+        <label class="control-label" for="events_typeOfEvent" id="events_typeOfEvent__label">Event Tag:</label>
+            <select class="generic-widget form-control" id="events_typeOfEvent" name="typeOfEvent">
+                <option value=""></option>
+                <option value="Academic">Academic</option>
+                <option value="Cultural">Cultural</option>
+                <option value="Sports">Sports</option>
+                <option value="Holiday">Holiday</option>
+                <option value="Other">Other</option>
+                <option value="Urgent">Urgent</option>
+            </select>
+    </div>
+    {{=form.custom.submit}}
+{{=form.custom.end}}
+<br>
 <script type="text/javascript">
     $(function () {
         $('#datetimepicker1').datetimepicker();
