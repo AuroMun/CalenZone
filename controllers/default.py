@@ -89,7 +89,6 @@ def eventView():
     cond1 = (db.userTag.auth_user==session.auth.user.id)
     events = db(db.userTag.tag==db.eventTag.tag)(db.userTag.auth_user==session.auth.user.id)(db.events.id == db.eventTag.events).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt, db.events.endAt, db.events.typeOfEvent, db.eventTag.tag, distinct=True)
     #events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
-    mao = events[0].events.eventName
     for event in events:
         event.id=event.events["id"]
         event.eventName=event.events["eventName"]
@@ -114,7 +113,7 @@ def eventView():
         event["end"]=(event.events["endAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
         #event["url"] = event.eventName
     
-    return dict(success=1, result=events, mao = mao)
+    return dict(success=1, result=events)
 
 
 def user():
