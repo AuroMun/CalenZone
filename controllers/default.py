@@ -105,7 +105,7 @@ def eventView():
         if event.events.typeOfEvent == 'Holiday':
             event["class"] = "event-warning"
         if event.events.typeOfEvent == 'Other':
-            event["class"] = "event-reverse"
+            event["class"] = "event-inverse"
         if event.events.typeOfEvent == 'Urgent':
             event["class"] = "event-important"
         event["url"] = URL('showDes.html', args=[event.events.id])
