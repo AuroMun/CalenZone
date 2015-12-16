@@ -1,6 +1,5 @@
 {{extend 'layout.html'}}
 <link rel="stylesheet" href="{{=URL('static', '/bower_components/bootstrap-calendar/css/calendar.css')}}">
-<script type="text/javascript" src="{{=URL('static','bower_components/jquery/jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','js/list.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','bower_components/underscore/underscore-min.js')}}"></script>
 <script type="text/javascript"
@@ -127,7 +126,7 @@
                         $('.btn-group button').removeClass('active');
                         $('button[data-calendar-view="' + view + '"]').addClass('active');
                     },
-                    events_source: "/CalenZone/default/eventView.json"
+                    events_source: "{{=URL('default','eventView.json')}}"
                 });
         $('.btn-group button[data-calendar-nav]').each(function () {
             var $this = $(this);
