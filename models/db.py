@@ -57,9 +57,8 @@ auth = Auth(db)
 service = Service()
 plugins = PluginManager()
 
-
 ## create all tables needed by auth if not custom tables
-auth.define_tables(username=False, signature=False)
+auth.define_tables(username=True, signature=False)
 
 ## configure email
 mail = auth.settings.mailer
@@ -97,7 +96,6 @@ db.define_table('userTag',
 db.define_table('eventTag',
                 Field('tag', db.tag),
                 Field('events', db.events))
-
 ## Fields can be 'string','text','password','integer','double','boolean'
 ##       'date','time','datetime','blob','upload', 'reference TABLENAME'
 ## There is an implicit 'id integer autoincrement' field
@@ -112,3 +110,9 @@ db.define_table('eventTag',
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
+from gluon.contrib.login_methods.ldap_auth import ldap_auth
+auth.settings.login_methods.append(ldap_auth(mode='uid_r', server='ldap.iiit.ac.in',
+    manage_user=True,
+   base_dn='OU=Users,DC=iiit,DC=ac,DC=in',
+   logging_level='debug',
+   user_firstname_attrib='cn:1',user_lastname_attrib='cn:2',user_mail_attrib='mail',db=db))
