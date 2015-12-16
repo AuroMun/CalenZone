@@ -24,12 +24,12 @@
 <div class="container">
     <div class="page-header">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <h3 class="calendar-title">
 
                 </h3>
             </div>
-            <div class="col-sm-8">
+            <div class="col-sm-6">
 
                 <div class="btn-group">
                     <button class="btn btn-primary" data-calendar-nav="prev"><< Prev</button>
@@ -42,6 +42,28 @@
                     <button class="btn btn-warning" data-calendar-view="week">Week</button>
                     <button class="btn btn-warning" data-calendar-view="day">Day</button>
                 </div>
+            </div>
+            <div class="col-sm-3">
+                <table style="border-spacing:100px; border-collapse:seperate;" cellspacing="10">
+                    <tr>
+                        <td class="event event-important"></td>
+                        <td>Urgent</td>
+                        <td class="event event-info"></td>
+                        <td>Academic</td>
+                    </tr>
+                    <tr>
+                        <td class="event event-warning"></td>
+                        <td>Holiday</td>
+                        <td class="event event-inverse"></td>
+                        <td>Other</td>
+                    </tr>
+                    <tr>
+                        <td class="event event-success"></td>
+                        <td>Cultural</td>
+                        <td class="event event-special"></td>
+                        <td>Sports</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
