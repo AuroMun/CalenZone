@@ -8,7 +8,6 @@
 <script type="text/javascript" src="{{=URL('static','bower_components/underscore/underscore-min.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
 <h1>Create an event</h1>
-<div class="container" id="form-container">
 {{=form.custom.begin}}
     <div class="form-group">
         <label for="name">Event Name:</label>
@@ -71,7 +70,7 @@
     <div class="form-group">
         <label for="name">Website Link:</label>
         {{=form.custom.widget.link}}
-    </div>
+    </div><!--
      <div class="form-group" id="events_typeOfEvent__row">
         <label class="control-label" for="events_typeOfEvent" id="events_typeOfEvent__label">Event Tag:</label>
             <select class="generic-widget form-control" id="events_typeOfEvent" name="typeOfEvent">
@@ -83,7 +82,11 @@
                 <option value="Other">Other</option>
                 <option value="Urgent">Urgent</option>
             </select>
-    </div>
+    </div>-->
+    <div class="from-group">
+        <label for="typeOfEvent">Event Tags:</label>
+        {{=form.custom.widget.typeOfEvent}}
+    </div><br>
     {{=form.custom.submit}}
 {{=form.custom.end}}
     </div>
