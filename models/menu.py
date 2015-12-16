@@ -5,7 +5,7 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = H4("CalenZone",_style="color:#F0F0F0;padding-top:0.4em;padding-left:0.3em")
+response.logo = H4("Events",_style="padding-top:0.4em;padding-left:0.3em")
 response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
 
