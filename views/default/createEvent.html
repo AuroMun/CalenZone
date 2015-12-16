@@ -8,6 +8,7 @@
 <script type="text/javascript" src="{{=URL('static','bower_components/underscore/underscore-min.js')}}"></script>
 <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
 <h1>Create an event</h1>
+<div class="container" id="form-container">
 {{=form.custom.begin}}
     <div class="form-group">
         <label for="name">Event Name:</label>
@@ -85,16 +86,17 @@
     </div>
     {{=form.custom.submit}}
 {{=form.custom.end}}
+    </div>
 <br>
 <script type="text/javascript">
     $(function () {
-        $('#datetimepicker1').datetimepicker();
+        $("#form-container > form").addClass("form-horizontal");
     });
 </script>
 <script>
     $('#tokenfield').tokenfield({
         autocomplete: {
-            source: ['All', 'Students', 'UG1', 'UG2', 'UG3', 'UG4', 'Staff', 'Life', 'ICS101'],
+            source: [{{=grouplist}}],
             delay: 100
         },
         showAutocompleteOnFocus: true
