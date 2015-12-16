@@ -41,10 +41,21 @@ def profile():
 def createEvent():
     form = SQLFORM(db.events)
     form.vars.ownerOfEvent = session.auth.user.id
+
+    ##adding group names
+    x=db(db.tag).select(db.tag.tagName)
+    y=""
+    for i in x:
+        y= y+"\'"+str(i.tagName)+"\'"
+        y= y+","
+    if y != "":
+        y = y[:-1]
+
+    ##Processing Form
     if form.process().accepted:
         response.flash = T("Event Created!")
         redirect(URL('setEventTags'))
-    return dict(form=form)
+    return dict(form=form,grouplist=T(y))
 
 @auth.requires_login()
 def setEventTags():
