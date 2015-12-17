@@ -81,7 +81,21 @@ def showDes():
 
 def myEvents():
     events = db(db.events.ownerOfEvent == session.auth.user.id).select()
-    return dict(events=events)  
+    return dict(events=events) 
+
+def editEvent():
+    try:
+        request.args[0]
+    except IndexError:
+        redirect(URL('myEvents'))
+    eventId = request.args[0]
+    #form1=crud.update(db.events,eventId)
+    #crud.settings.update_next = URL('myEvents')
+    record = db.events(eventId) 
+    form = SQLFORM(db.events, record)
+    if form.process().accepted:
+        redirect(URL('myEvents'))
+    return dict(form=form)
 
 @auth.requires_login()
 def calendar():
