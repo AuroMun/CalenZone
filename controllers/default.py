@@ -53,8 +53,12 @@ def createEvent():
 
     ##Processing Form
     if form.process().accepted:
-        response.flash = T("Event Created!")
-        redirect(URL('setEventTags'))
+        response.flash = "Event created successfully"
+        groups = request.vars.groups.split(", ")
+        for group in groups:
+            gr_id = db(db.tag.tagName==group).select(db.tag.id)[0].id
+            response.flash += ":"+str(gr_id)
+            db.eventTag.insert(tag=gr_id, events=form.vars.id)
     return dict(form=form,grouplist=T(y))
 
 @auth.requires_login()
@@ -73,6 +77,10 @@ def showEvent():
 def showDes():
     des = db(db.events.id == request.args[0]).select(db.events.description, db.events.startAt, db.events.endAt, db.events.link, db.events.contact, db.events.eventName, db.events.venue)[0]
     return dict(des=des)
+
+def myEvents():
+    events = db(db.events.ownerOfEvent == session.auth.user.id).select()
+    return dict(hi=events)
 
 @auth.requires_login()
 def calendar():
