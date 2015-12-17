@@ -78,6 +78,10 @@ def showDes():
     des = db(db.events.id == request.args[0]).select(db.events.description, db.events.startAt, db.events.endAt, db.events.link, db.events.contact, db.events.eventName, db.events.venue)[0]
     return dict(des=des)
 
+def myEvents():
+    events = db(db.events.ownerOfEvent == session.auth.user.id).select()
+    return dict(hi=events)
+
 @auth.requires_login()
 def calendar():
     return locals()
