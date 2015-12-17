@@ -10,7 +10,6 @@
 import time
 import datetime
 
-
 def index():
     """
     example action using the internationalization operator T and flash
@@ -39,6 +38,14 @@ def profile():
         redirect(URL())
     return locals()
 
+def groupNameFormatter(x):
+    y = ""
+    for i in x:
+        y = y + "\'" + str(i.tagName) + "\'"
+        y = y + ","
+    if y != "":
+        y = y[:-1]
+    return y
 
 @auth.requires_login()
 def createEvent():
@@ -47,12 +54,7 @@ def createEvent():
 
     ##adding group names
     x = db(db.tag).select(db.tag.tagName)
-    y = ""
-    for i in x:
-        y = y + "\'" + str(i.tagName) + "\'"
-        y = y + ","
-    if y != "":
-        y = y[:-1]
+    y = groupNameFormatter(x)
 
     ##Processing Form
     if form.process().accepted:
@@ -74,21 +76,18 @@ def changeTags():
 
     ##adding group names
     x = db(db.tag).select(db.tag.tagName)
-    y = ""
-    for i in x:
-        y = y + "\'" + str(i.tagName) + "\'"
-        y = y + ","
-    if y != "":
-        y = y[:-1]
-
-    db(db.eventTag.events==form_id).delete()
+    y = groupNameFormatter(x)
+    q1 = db.eventTag.events == form_id
+    q2 = db.tag.id == db.eventTag.tag
+    currentTags = groupNameFormatter(db(q1 & q2).select(db.tag.tagName))
     if request.vars.groups:
+        db(db.eventTag.events==form_id).delete()
         groups = request.vars.groups.split(", ")
         for group in groups:
             gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
             db.eventTag.insert(tag=gr_id, events=form_id)
         redirect(URL('myEvents'))
-    return dict(grouplist=T(y))
+    return dict(grouplist=T(y), currentTags=currentTags)
 
 @auth.requires_login()
 def setEventTags():
