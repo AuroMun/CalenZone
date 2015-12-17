@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+<script type="text/javascript" src="{{=URL('static','bower_components/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{=URL('static','bower_components/bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js')}}"></script>
+<link rel="stylesheet"
+      href="{{=URL('static','bower_components/bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css')}}">
+<link rel="stylesheet" href="{{=URL('static','bower_components/jquery-ui/themes/smoothness/jquery-ui.min.css')}}">
+<h2>Change Tags</h2>
+<form>
+    <div class="form-group">
+        <label for="tokenfield">Groups *:</label>
+        <input type="text" class="form-control" id="tokenfield" name="groups" value="All"/>
+    </div>
+    <input type="submit">
+</form>
+<script>
+    $('#tokenfield').tokenfield({
+        autocomplete: {
+            source: [{{=grouplist}}],
+    delay: 100
+    },
+    showAutocompleteOnFocus: true
+    })
+</script>
