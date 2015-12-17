@@ -99,6 +99,9 @@ def editEvent():
     except IndexError:
         redirect(URL('myEvents'))
     eventId = request.args[0]
+    ownerOfEvent = db(db.events.id==eventId).select(db.events.ownerOfEvent)[0].ownerOfEvent
+    if ownerOfEvent != session.auth.user.id:
+        redirect(URL('myEvents'))
     # form1=crud.update(db.events,eventId)
     # crud.settings.update_next = URL('myEvents')
     record = db.events(eventId)
@@ -122,8 +125,10 @@ def eventView():
     # for taga in tags:
     #    events = db(db.eventTag.tag == taga).select(db.events.eventName)
     cond1 = (db.userTag.auth_user == session.auth.user.id)
-    events = db(db.userTag.tag == db.eventTag.tag)(db.userTag.auth_user == session.auth.user.id)(
-        db.events.id == db.eventTag.events).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
+    q1 = db.userTag.tag == db.eventTag.tag
+    q2 = db.userTag.auth_user == session.auth.user.id
+    q3 = db.events.id == db.eventTag.events
+    events = db(q1 & q2 & q3).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
                                                    db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
                                                    distinct=True)
     # events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
