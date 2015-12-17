@@ -2,6 +2,10 @@
 <h2>My Events</h2>
 <table class="table table-striped">
 <tbody>
+
+{{if not events:}}
+No events
+{{pass}}
 {{for i in events:}}
 <tr>
 	<td>{{=i.eventName}}</td>
