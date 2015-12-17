@@ -10,11 +10,11 @@
 <h1>Create an event</h1>
 {{=form.custom.begin}}
     <div class="form-group">
-        <label for="name">Event Name:</label>
+        <label for="name">Event Name *:</label>
         {{=form.custom.widget.eventName}}
     </div>
     <div class="form-group">
-        <label for="description">Description:</label>
+        <label for="description">Description *:</label>
         {{=form.custom.widget.description}}
     </div>
     <!--
@@ -28,7 +28,7 @@
     </div>
     -->
     <div class="form-group" id="events_startAt__row">
-        <label for="events_startAt" id="events_startAt__label">Starts At:</label>
+        <label for="events_startAt" id="events_startAt__label">Starts At *:</label>
         {{=form.custom.widget.startAt}}
     </div>
 
@@ -47,7 +47,7 @@
         {{=form.custom.widget.endAt}}
     </div>
     <div class="form-group">
-        <label for="tokenfield">Groups:</label>
+        <label for="tokenfield">Groups *:</label>
         <input type="text" class="form-control" id="tokenfield" name="groups" value="All"/>
     </div>
     <!--
@@ -72,7 +72,7 @@
         {{=form.custom.widget.link}}
     </div>
     <div class="from-group">
-        <label for="typeOfEvent">Event Tags:</label>
+        <label for="typeOfEvent">Event Type *:</label>
         {{=form.custom.widget.typeOfEvent}}
     </div><br>
     {{=form.custom.submit}}
