@@ -51,11 +51,12 @@ response.form_label_separator = myconf.take('forms.separator')
 ## (more options discussed in gluon/tools.py)
 #########################################################################
 
-from gluon.tools import Auth, Service, PluginManager
+from gluon.tools import Auth, Service, PluginManager, Crud
 
 auth = Auth(db)
 service = Service()
 plugins = PluginManager()
+crud = Crud(db)
 
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
@@ -91,6 +92,7 @@ db.define_table('events',
                 Field('link', 'string', label="Webpage link"),
                 Field('ownerOfEvent', db.auth_user, readable=False, writable=False),
                 Field('typeOfEvent', 'string', label="Event Tag (*)", requires = IS_IN_SET(['Academic', 'Cultural', 'Sports', 'Holiday', 'Other', 'Urgent'])),
+                auth.signature,
                 format='%(eventName)s')
 
 db.define_table('userTag',
