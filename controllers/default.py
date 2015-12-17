@@ -59,6 +59,7 @@ def createEvent():
             gr_id = db(db.tag.tagName==group).select(db.tag.id)[0].id
             response.flash += ":"+str(gr_id)
             db.eventTag.insert(tag=gr_id, events=form.vars.id)
+        redirect(URL('calendar'))
     return dict(form=form,grouplist=T(y))
 
 @auth.requires_login()
@@ -80,7 +81,7 @@ def showDes():
 
 def myEvents():
     events = db(db.events.ownerOfEvent == session.auth.user.id).select()
-    return dict(hi=events)
+    return dict(events=events)  
 
 @auth.requires_login()
 def calendar():

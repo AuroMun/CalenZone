@@ -1,3 +1,14 @@
 {{extend 'layout.html'}}
-<h1>This is the default/myEvents.html template</h1>
-{{=BEAUTIFY(response._vars)}}
+<h2>My Events</h2>
+<table class="table table-striped">
+<tbody>
+{{for i in events:}}
+<tr>
+	<td>{{=i.eventName}}</td>
+	<td><a href="">edit</a></td>
+	<td><a href="">edit tags</a></td>
+	<td><a href="">delete</a></td>
+</tr>
+{{pass}}
+</tbody>
+</table>
