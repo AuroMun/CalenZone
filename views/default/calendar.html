@@ -17,6 +17,11 @@
         outline: none;
         border-color: #aaa;
     }
+
+    .borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+        border: none;
+        padding: 2px;
+    }
 </style>
 
 
@@ -44,23 +49,23 @@
                 </div>
             </div>
             <div class="col-sm-3">
-                <table style="border-spacing:100px; border-collapse:seperate;" cellspacing="10">
+                <table class="table borderless">
                     <tr>
-                        <td class="event event-important"></td>
+                        <td><div class="event event-important"/></td>
                         <td>Urgent</td>
-                        <td class="event event-info"></td>
+                        <td><div class="event event-info"/></td>
                         <td>Academic</td>
                     </tr>
                     <tr>
-                        <td class="event event-warning"></td>
+                        <td><div class="event event-warning"/></td>
                         <td>Holiday</td>
-                        <td class="event event-inverse"></td>
+                        <td><div class="event event-inverse"/></td>
                         <td>Other</td>
                     </tr>
                     <tr>
-                        <td class="event event-success"></td>
+                        <td><div class="event event-success"/></td>
                         <td>Cultural</td>
-                        <td class="event event-special"></td>
+                        <td><div class="event event-special"/></td>
                         <td>Sports</td>
                     </tr>
                 </table>
