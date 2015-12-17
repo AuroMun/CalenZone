@@ -101,7 +101,15 @@ def eventView():
         event.id=event.events["id"]
         event.eventName=event.events["eventName"]
         event.startAt=event.events["startAt"]
-        event.endAt=event.events["endAt"]
+
+        ## default endtime to start time if there is none
+        if event.events["endAt"]:
+            event.endAt=event.events["endAt"]
+        else:
+            event.endAt=event.startAt
+            event.events["endAt"]=event.startAt
+
+        ##TODO - Fix auro's messy ass code -_-
         event.typeOfEvent=event.events["typeOfEvent"]
         event["title"] = event.events["eventName"]
         if event.events.typeOfEvent == 'Academic':
@@ -118,7 +126,7 @@ def eventView():
             event["class"] = "event-important"
         event["url"] = URL('showDes.html', args=[event.events.id])
         event["start"]=(event.events["startAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
-        event["end"]=(event.events["endAt"] - datetime.datetime(1970,1,1)).total_seconds()*1000
+        event["end"]=(event.endAt - datetime.datetime(1970,1,1)).total_seconds()*1000
         #event["url"] = event.eventName
     
     return dict(success=1, result=events)
