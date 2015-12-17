@@ -77,23 +77,27 @@ auth.settings.reset_password_requires_verification = True
 ##
 ## >>> db.define_table('mytable',Field('myfield','string'))
 ##
+
 db.define_table('tag',
                Field('tagName', 'string', unique=True),
                format='%(tagName)s')
+
 db.define_table('events',
-                Field('eventName', 'string', label="Event's Name", requires=IS_NOT_EMPTY()),
-                Field('startAt', 'datetime', label="Starts At", requires=IS_NOT_EMPTY()),
+                Field('eventName', 'string', label="Event's Name (*)", requires=IS_NOT_EMPTY()),
+                Field('startAt', 'datetime', label="Starts At (*)", requires=[IS_NOT_EMPTY(), IS_DATETIME()]),
                 Field('endAt', 'datetime', label="Ends At"),
                 Field('venue', 'string', label="Venue"),
                 Field('contact', 'string', label="Contact"),
-                Field('description', 'text', label="Description", requires=IS_NOT_EMPTY()),
+                Field('description', 'text', label="Description (*)", requires=IS_NOT_EMPTY()),
                 Field('link', 'string', label="Webpage link"),
                 Field('ownerOfEvent', db.auth_user, readable=False, writable=False),
-                Field('typeOfEvent', 'string', label="Event Tag", requires = IS_IN_SET(['Academic', 'Cultural', 'Sports', 'Holiday', 'Other', 'Urgent'])),
+                Field('typeOfEvent', 'string', label="Event Tag (*)", requires = IS_IN_SET(['Academic', 'Cultural', 'Sports', 'Holiday', 'Other', 'Urgent'])),
                 format='%(eventName)s')
+
 db.define_table('userTag',
                 Field('auth_user', db.auth_user, readable=False, writable=False),
                 Field('tag', db.tag))
+
 db.define_table('eventTag',
                 Field('tag', db.tag),
                 Field('events', db.events))
