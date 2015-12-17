@@ -65,6 +65,30 @@ def createEvent():
         redirect(URL('calendar'))
     return dict(form=form, grouplist=T(y))
 
+def changeTags():
+    try:
+        request.args[0]
+    except IndexError:
+        redirect(URL('myEvents'))
+    form_id = request.args[0]
+
+    ##adding group names
+    x = db(db.tag).select(db.tag.tagName)
+    y = ""
+    for i in x:
+        y = y + "\'" + str(i.tagName) + "\'"
+        y = y + ","
+    if y != "":
+        y = y[:-1]
+
+    db(db.eventTag.events==form_id).delete()
+    if request.vars.groups:
+        groups = request.vars.groups.split(", ")
+        for group in groups:
+            gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
+            db.eventTag.insert(tag=gr_id, events=form_id)
+        redirect(URL('myEvents'))
+    return dict(grouplist=T(y))
 
 @auth.requires_login()
 def setEventTags():
