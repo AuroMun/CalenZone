@@ -128,7 +128,8 @@ def eventView():
     q1 = db.userTag.tag == db.eventTag.tag
     q2 = db.userTag.auth_user == session.auth.user.id
     q3 = db.events.id == db.eventTag.events
-    events = db(q1 & q2 & q3).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
+    #q4 = db.events.ownerOfEvent = session.auth.user.id
+    events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
                                                    db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
                                                    distinct=True)
     # events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
