@@ -32,7 +32,7 @@ def profile():
     mytags = []
     mytags += [(db.tag[i.tag].tagName, i.id) for i in temp]
     form.vars.auth_user = session.auth.user.id
-    grid = SQLFORM.grid(db.events.ownerOfEvent == session.auth.user.id)
+    grid = SQLFORM.grid(db.events.created_by == session.auth.user.id)
     if form.process().accepted:
         response.flash = T("Tag Added!")
         redirect(URL())
@@ -62,7 +62,7 @@ def groupNameFormatter(x):
 @auth.requires_login()
 def createEvent():
     form = SQLFORM(db.events)
-    form.vars.ownerOfEvent = session.auth.user.id
+    form.vars.created_by = session.auth.user.id
 
     ##adding group names
     x = db(db.tag).select(db.tag.tagName)
@@ -104,7 +104,7 @@ def changeTags():
 
 @auth.requires_login()
 def setEventTags():
-    myevents = db(db.events.ownerOfEvent == session.auth.user.id).select(db.events.id)
+    myevents = db(db.events.created_by == session.auth.user.id).select(db.events.id)
     temp = [i for i in myevents]
     form = SQLFORM.grid(db.eventTag.events.belongs(temp))
     # if form.process().accepted:
@@ -125,7 +125,7 @@ def showDes():
 
 @auth.requires_login()
 def myEvents():
-    events = db(db.events.ownerOfEvent == session.auth.user.id).select()
+    events = db(db.events.created_by == session.auth.user.id).select()
     return dict(events=events)
 
 @auth.requires_login()
@@ -136,10 +136,10 @@ def editEvent():
         redirect(URL('myEvents'))
     eventId = request.args[0]
     try:
-        ownerOfEvent = db(db.events.id==eventId).select(db.events.ownerOfEvent)[0].ownerOfEvent
+        created_by = db(db.events.id==eventId).select(db.events.created_by)[0].created_by
     except IndexError:
         redirect(URL('myEvents'))
-    if ownerOfEvent != session.auth.user.id:
+    if created_by != session.auth.user.id:
         redirect(URL('myEvents'))
     # form1=crud.update(db.events,eventId)
     # crud.settings.update_next = URL('myEvents')
@@ -178,7 +178,7 @@ def eventView():
     q1 = db.userTag.tag == db.eventTag.tag
     q2 = db.userTag.auth_user == session.auth.user.id
     q3 = db.events.id == db.eventTag.events
-    #q4 = db.events.ownerOfEvent = session.auth.user.id
+    #q4 = db.events.created_by = session.auth.user.id
     events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
                                                    db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
                                                    distinct=True)
