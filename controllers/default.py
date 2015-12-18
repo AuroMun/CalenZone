@@ -10,6 +10,7 @@
 import time
 import datetime
 
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -38,6 +39,7 @@ def profile():
         redirect(URL())
     return locals()
 
+
 @auth.requires_login()
 def deleteGroup():
     try:
@@ -50,6 +52,7 @@ def deleteGroup():
     redirect(URL('profile'))
     return
 
+
 def groupNameFormatter(x):
     y = ""
     for i in x:
@@ -58,6 +61,7 @@ def groupNameFormatter(x):
     if y != "":
         y = y[:-1]
     return y
+
 
 @auth.requires_login()
 def createEvent():
@@ -70,17 +74,29 @@ def createEvent():
 
     ##Processing Form
     ##auto setting end date
-    ##if request.vars["startAt"]
+    if request.post_vars.startAt:
+        if request.post_vars.endAt == "":
+            form.vars.endAt = datetime.datetime.strptime(request.vars.startAt,
+                                                         '%Y-%m-%d %H:%M:%S') + datetime.timedelta(0, 3600)
+            request.post_vars.endAt = str(
+                datetime.datetime.strptime(request.vars.startAt, '%Y-%m-%d %H:%M:%S') + datetime.timedelta(0, 3600))
+        ##if request.vars["startAt"]
+        elif datetime.datetime.strptime(request.vars.startAt, '%Y-%m-%d %H:%M:%S') > datetime.datetime.strptime(
+                request.vars.endAt, '%Y-%m-%d %H:%M:%S'):
+            form.errors = True
+            response.flash += "End before start!"
+
     ##Checking if groups are in db
+
     if request.vars.groups:
         groups = request.vars.groups.split(", ")
-        #testcase1
+        # testcase1
         for group in groups:
-            if len(db(db.tag.tagName == group).select(db.tag.id))==0:
+            if len(db(db.tag.tagName == group).select(db.tag.id)) == 0:
                 response.flash += "Invalid Group Name!"
                 form.errors = True
-        #testcase2
-        if len(groups)!=len(set(groups)):
+        # testcase2
+        if len(groups) != len(set(groups)):
             response.flash += "Multiple groups of same name!"
             form.errors = True
 
@@ -94,6 +110,7 @@ def createEvent():
                 db.eventTag.insert(tag=gr_id, events=form.vars.id)
             redirect(URL('calendar'))
     return dict(form=form, grouplist=T(y))
+
 
 @auth.requires_login()
 def changeTags():
@@ -110,13 +127,14 @@ def changeTags():
     q2 = db.tag.id == db.eventTag.tag
     currentTags = groupNameFormatter(db(q1 & q2).select(db.tag.tagName))
     if request.vars.groups:
-        db(db.eventTag.events==form_id).delete()
+        db(db.eventTag.events == form_id).delete()
         groups = request.vars.groups.split(", ")
         for group in groups:
             gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
             db.eventTag.insert(tag=gr_id, events=form_id)
         redirect(URL('myEvents'))
     return dict(grouplist=T(y), currentTags=currentTags)
+
 
 @auth.requires_login()
 def setEventTags():
@@ -139,10 +157,12 @@ def showDes():
                                                      db.events.venue)[0]
     return dict(des=des)
 
+
 @auth.requires_login()
 def myEvents():
     events = db(db.events.created_by == session.auth.user.id).select()
     return dict(events=events)
+
 
 @auth.requires_login()
 def editEvent():
@@ -152,7 +172,7 @@ def editEvent():
         redirect(URL('myEvents'))
     eventId = request.args[0]
     try:
-        created_by = db(db.events.id==eventId).select(db.events.created_by)[0].created_by
+        created_by = db(db.events.id == eventId).select(db.events.created_by)[0].created_by
     except IndexError:
         redirect(URL('myEvents'))
     if created_by != session.auth.user.id:
@@ -176,7 +196,7 @@ def deleteEvent():
     event_id = request.args[0]
     event = db.events[event_id]
     if event == None:
-        session.flash = "Event does not exist!"        
+        session.flash = "Event does not exist!"
         redirect(URL('myEvents'))
     if event.created_by == session.auth.user.id:
         session.flash = "Event deleted!"
@@ -184,6 +204,7 @@ def deleteEvent():
     else:
         session.flash = "You do no have permission to delete this event!"
     redirect(URL('myEvents'))
+
 
 @auth.requires_login()
 def eventView():
@@ -197,10 +218,10 @@ def eventView():
     q1 = db.userTag.tag == db.eventTag.tag
     q2 = db.userTag.auth_user == session.auth.user.id
     q3 = db.events.id == db.eventTag.events
-    #q4 = db.events.created_by = session.auth.user.id
+    # q4 = db.events.created_by = session.auth.user.id
     events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
-                                                   db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
-                                                   distinct=True)
+                                       db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
+                                       distinct=True)
     # events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
     for event in events:
         event.id = event.events["id"]
