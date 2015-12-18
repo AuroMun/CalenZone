@@ -1,7 +1,6 @@
 errors/
 sessions/
 .idea/
-databases/storage.sqlite
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
