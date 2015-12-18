@@ -159,6 +159,9 @@ def calendar():
 def deleteEvent():
     event_id = request.args[0]
     event = db.events[event_id]
+    if event == None:
+        session.flash = "Event does not exist!"        
+        redirect(URL('myEvents'))
     if event.created_by == session.auth.user.id:
         session.flash = "Event deleted!"
         db(db.events.id == event_id).delete()
