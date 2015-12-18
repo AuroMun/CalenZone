@@ -135,7 +135,10 @@ def editEvent():
     except IndexError:
         redirect(URL('myEvents'))
     eventId = request.args[0]
-    ownerOfEvent = db(db.events.id==eventId).select(db.events.ownerOfEvent)[0].ownerOfEvent
+    try:
+        ownerOfEvent = db(db.events.id==eventId).select(db.events.ownerOfEvent)[0].ownerOfEvent
+    except IndexError:
+        redirect(URL('myEvents'))
     if ownerOfEvent != session.auth.user.id:
         redirect(URL('myEvents'))
     # form1=crud.update(db.events,eventId)
