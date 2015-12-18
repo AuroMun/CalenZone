@@ -10,6 +10,7 @@
 import time
 import datetime
 
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -32,21 +33,25 @@ def profile():
     mytags = []
     mytags += [(db.tag[i.tag].tagName, i.id) for i in temp]
     form.vars.auth_user = session.auth.user.id
-    grid = SQLFORM.grid(db.events.ownerOfEvent == session.auth.user.id)
+    grid = SQLFORM.grid(db.events.created_by == session.auth.user.id)
     if form.process().accepted:
         response.flash = T("Tag Added!")
         redirect(URL())
     return locals()
 
+
 @auth.requires_login()
 def deleteGroup():
     try:
-        id = request.args[0]
+        gid = request.args[0]
     except IndexError:
         redirect(URL('profile'))
-    crud.delete(db.userTag, id)
+    ownerOfTag = db(db.userTag.id == gid).select()[0].auth_user
+    if ownerOfTag == session.auth.user.id:
+        crud.delete(db.userTag, gid)
     redirect(URL('profile'))
     return
+
 
 def groupNameFormatter(x):
     y = ""
@@ -57,25 +62,55 @@ def groupNameFormatter(x):
         y = y[:-1]
     return y
 
+
 @auth.requires_login()
 def createEvent():
     form = SQLFORM(db.events)
-    form.vars.ownerOfEvent = session.auth.user.id
+    form.vars.created_by = session.auth.user.id
 
     ##adding group names
     x = db(db.tag).select(db.tag.tagName)
     y = groupNameFormatter(x)
 
     ##Processing Form
-    if form.process().accepted:
-        response.flash = "Event created successfully"
+    ##auto setting end date
+    if request.post_vars.startAt:
+        if request.post_vars.endAt == "":
+            form.vars.endAt = datetime.datetime.strptime(request.vars.startAt,
+                                                         '%Y-%m-%d %H:%M:%S') + datetime.timedelta(0, 3600)
+            request.post_vars.endAt = str(
+                datetime.datetime.strptime(request.vars.startAt, '%Y-%m-%d %H:%M:%S') + datetime.timedelta(0, 3600))
+        ##if request.vars["startAt"]
+        elif datetime.datetime.strptime(request.vars.startAt, '%Y-%m-%d %H:%M:%S') > datetime.datetime.strptime(
+                request.vars.endAt, '%Y-%m-%d %H:%M:%S'):
+            form.errors = True
+            response.flash += "End before start!"
+
+    ##Checking if groups are in db
+
+    if request.vars.groups:
         groups = request.vars.groups.split(", ")
+        # testcase1
         for group in groups:
-            gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
-            response.flash += ":" + str(gr_id)
-            db.eventTag.insert(tag=gr_id, events=form.vars.id)
-        redirect(URL('calendar'))
+            if len(db(db.tag.tagName == group).select(db.tag.id)) == 0:
+                response.flash += "Invalid Group Name!"
+                form.errors = True
+        # testcase2
+        if len(groups) != len(set(groups)):
+            response.flash += "Multiple groups of same name!"
+            form.errors = True
+
+    if not form.errors:
+        if form.process().accepted:
+            response.flash = "Event created successfully"
+            groups = request.vars.groups.split(", ")
+            for group in groups:
+                gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
+                response.flash += ":" + str(gr_id)
+                db.eventTag.insert(tag=gr_id, events=form.vars.id)
+            redirect(URL('calendar'))
     return dict(form=form, grouplist=T(y))
+
 
 @auth.requires_login()
 def changeTags():
@@ -92,7 +127,7 @@ def changeTags():
     q2 = db.tag.id == db.eventTag.tag
     currentTags = groupNameFormatter(db(q1 & q2).select(db.tag.tagName))
     if request.vars.groups:
-        db(db.eventTag.events==form_id).delete()
+        db(db.eventTag.events == form_id).delete()
         groups = request.vars.groups.split(", ")
         for group in groups:
             gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
@@ -100,9 +135,10 @@ def changeTags():
         redirect(URL('myEvents'))
     return dict(grouplist=T(y), currentTags=currentTags)
 
+
 @auth.requires_login()
 def setEventTags():
-    myevents = db(db.events.ownerOfEvent == session.auth.user.id).select(db.events.id)
+    myevents = db(db.events.created_by == session.auth.user.id).select(db.events.id)
     temp = [i for i in myevents]
     form = SQLFORM.grid(db.eventTag.events.belongs(temp))
     # if form.process().accepted:
@@ -121,10 +157,12 @@ def showDes():
                                                      db.events.venue)[0]
     return dict(des=des)
 
+
 @auth.requires_login()
 def myEvents():
-    events = db(db.events.ownerOfEvent == session.auth.user.id).select()
+    events = db(db.events.created_by == session.auth.user.id).select()
     return dict(events=events)
+
 
 @auth.requires_login()
 def editEvent():
@@ -133,8 +171,11 @@ def editEvent():
     except IndexError:
         redirect(URL('myEvents'))
     eventId = request.args[0]
-    ownerOfEvent = db(db.events.id==eventId).select(db.events.ownerOfEvent)[0].ownerOfEvent
-    if ownerOfEvent != session.auth.user.id:
+    try:
+        created_by = db(db.events.id == eventId).select(db.events.created_by)[0].created_by
+    except IndexError:
+        redirect(URL('myEvents'))
+    if created_by != session.auth.user.id:
         redirect(URL('myEvents'))
     # form1=crud.update(db.events,eventId)
     # crud.settings.update_next = URL('myEvents')
@@ -154,12 +195,16 @@ def calendar():
 def deleteEvent():
     event_id = request.args[0]
     event = db.events[event_id]
+    if event == None:
+        session.flash = "Event does not exist!"
+        redirect(URL('myEvents'))
     if event.created_by == session.auth.user.id:
         session.flash = "Event deleted!"
         db(db.events.id == event_id).delete()
     else:
         session.flash = "You do no have permission to delete this event!"
     redirect(URL('myEvents'))
+
 
 @auth.requires_login()
 def eventView():
@@ -173,10 +218,10 @@ def eventView():
     q1 = db.userTag.tag == db.eventTag.tag
     q2 = db.userTag.auth_user == session.auth.user.id
     q3 = db.events.id == db.eventTag.events
-    #q4 = db.events.ownerOfEvent = session.auth.user.id
+    # q4 = db.events.created_by = session.auth.user.id
     events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
-                                                   db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
-                                                   distinct=True)
+                                       db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
+                                       distinct=True)
     # events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
     for event in events:
         event.id = event.events["id"]

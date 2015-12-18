@@ -9,75 +9,76 @@
 <script type="text/javascript" src="{{=URL('static','bower_components/moment/moment.js')}}"></script>
 <h1>Create an event</h1>
 {{=form.custom.begin}}
-    <div class="form-group">
-        <label for="name">Event Name *:</label>
-        {{=form.custom.widget.eventName}}
-    </div>
-    <div class="form-group">
-        <label for="description">Description *:</label>
-        {{=form.custom.widget.description}}
-    </div>
-    <!--
-    <div class="form-group">
-        <label>Visibity:</label>
+<div class="form-group">
+    <label for="name">Event Name *:</label>
+    {{=form.custom.widget.eventName}}
+</div>
+<div class="form-group">
+    <label for="description">Description *:</label>
+    {{=form.custom.widget.description}}
+</div>
+<!--
+<div class="form-group">
+    <label>Visibity:</label>
 
-        <div class="radio" id="vis">
-            <label><input type="radio" name="visible">Public</label>
-            <label><input type="radio" name="visible">Private</label>
-        </div>
+    <div class="radio" id="vis">
+        <label><input type="radio" name="visible">Public</label>
+        <label><input type="radio" name="visible">Private</label>
     </div>
-    -->
-    <div class="form-group" id="events_startAt__row">
-        <label for="events_startAt" id="events_startAt__label">Starts At *:</label>
-        {{=form.custom.widget.startAt}}
-    </div>
+</div>
+-->
+<div class="form-group" id="events_startAt__row">
+    <label for="events_startAt" id="events_startAt__label">Starts At *:</label>
+    {{=form.custom.widget.startAt}}
+</div>
 
-    <label for="endCheck">End Time:</label>
-    <style>
-        #endCheck + #events_endAt__row{
-            display: none;
-        }
-        #endCheck:checked + #events_endAt__row{
-            display: inline;
-        }
-    </style>
-    <input type="checkbox" value="1" id="endCheck">Endtime?
-    <div class="form-group" id="events_endAt__row">
-        <label for="events_endAt" id="events_endAt__label">End At:</label>
-        {{=form.custom.widget.endAt}}
-    </div>
-    <div class="form-group">
-        <label for="tokenfield">Groups *:</label>
-        <input type="text" class="form-control" id="tokenfield" name="groups" value="All"/>
-    </div>
-    <!--
-    <div class="form-group">
-        <label for="repeat">Repeat?</label>
+<label for="endCheck">End Time:</label>
+<style>
+    #endCheck + #events_endAt__row {
+        display: none;
+    }
 
-        <div class="checkbox">
-            <label><input type="checkbox" value="1" id="repeat">If yes, daily/weekly/monthly</label>
-        </div>
+    #endCheck:checked + #events_endAt__row {
+        display: inline;
+    }
+</style>
+<input type="checkbox" value="1" id="endCheck">Endtime?
+<div class="form-group" id="events_endAt__row">
+    <label for="events_endAt" id="events_endAt__label">End At:</label>
+    {{=form.custom.widget.endAt}}
+</div>
+<div class="form-group">
+    <label for="tokenfield">Groups *:</label>
+    <input type="text" class="form-control" id="tokenfield" name="groups" value="All"/>
+</div>
+<!--
+<div class="form-group">
+    <label for="repeat">Repeat?</label>
+
+    <div class="checkbox">
+        <label><input type="checkbox" value="1" id="repeat">If yes, daily/weekly/monthly</label>
     </div>
-    -->
-    <div class="form-group">
-        <label for="location">Location:</label>
-        {{=form.custom.widget.venue}}
-    </div>
-    <div class="form-group">
-        <label for="contact">Contact:</label>
-        {{=form.custom.widget.contact}}
-    </div>
-    <div class="form-group">
-        <label for="name">Website Link:</label>
-        {{=form.custom.widget.link}}
-    </div>
-    <div class="from-group">
-        <label for="typeOfEvent">Event Type *:</label>
-        {{=form.custom.widget.typeOfEvent}}
-    </div><br>
-    {{=form.custom.submit}}
+</div>
+-->
+<div class="form-group">
+    <label for="location">Location:</label>
+    {{=form.custom.widget.venue}}
+</div>
+<div class="form-group">
+    <label for="contact">Contact:</label>
+    {{=form.custom.widget.contact}}
+</div>
+<div class="form-group">
+    <label for="name">Website Link:</label>
+    {{=form.custom.widget.link}}
+</div>
+<div class="from-group">
+    <label for="typeOfEvent">Event Type *:</label>
+    {{=form.custom.widget.typeOfEvent}}
+</div><br>
+{{=form.custom.submit}}
 {{=form.custom.end}}
-    </div>
+</div>
 <br>
 <script type="text/javascript">
     $(function () {
@@ -85,11 +86,34 @@
     });
 </script>
 <script>
-    $('#tokenfield').tokenfield({
+    var groupArray = [{{=grouplist}}];
+    var originalArray = groupArray.slice();
+    $('#tokenfield').on('tokenfield:createdtoken', function (e) {
+        // Über-simplistic e-mail validation
+        var re = /\S+@\S+\.\S+/;
+        console.log(e);
+        var index = groupArray.indexOf(e.attrs.value);
+        var valid = index != -1;
+        if (!valid) {
+            $(e.relatedTarget).addClass('invalid')
+        } else {
+            groupArray.splice(index, 1);
+            setTimeout(function(){$('#tokenfield').data('bs.tokenfield').$input.autocomplete(
+                    {source: groupArray});},10);
+        }
+    })
+    .on('tokenfield:removedtoken', function (e) {
+        if((groupArray.indexOf(e.attrs.value)==-1)&(originalArray.indexOf(e.attrs.value)!=-1)){
+            groupArray.push(e.attrs.value);
+            setTimeout(function(){$('#tokenfield').data('bs.tokenfield').$input.autocomplete(
+                    {source: groupArray});},10);
+        }
+    })
+    .tokenfield({
         autocomplete: {
-            source: [{{=grouplist}}],
+            source: groupArray,
             delay: 100
         },
         showAutocompleteOnFocus: true
-    })
+    });
 </script>
