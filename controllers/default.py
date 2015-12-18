@@ -28,15 +28,25 @@ def profile():
     form = SQLFORM(db.userTag)
     # dn=db(db.auth_user.id==request.args[0]).select()
     # tags = db(db.auth_user.id==db.userTag.auth_user and db.tag.id==db.userTag.tag).select(db.auth_user.email, db.tag.tagName)
-    temp = db(db.userTag.auth_user == session.auth.user.id).select(db.userTag.tag)
+    temp = db(db.userTag.auth_user == session.auth.user.id).select()
     mytags = []
-    mytags += [db.tag[i.tag].tagName for i in temp]
+    mytags += [(db.tag[i.tag].tagName, i.id) for i in temp]
     form.vars.auth_user = session.auth.user.id
     grid = SQLFORM.grid(db.events.ownerOfEvent == session.auth.user.id)
     if form.process().accepted:
         response.flash = T("Tag Added!")
         redirect(URL())
     return locals()
+
+@auth.requires_login()
+def deleteGroup():
+    try:
+        id = request.args[0]
+    except IndexError:
+        redirect(URL('profile'))
+    crud.delete(db.userTag, id)
+    redirect(URL('profile'))
+    return
 
 def groupNameFormatter(x):
     y = ""
@@ -67,6 +77,7 @@ def createEvent():
         redirect(URL('calendar'))
     return dict(form=form, grouplist=T(y))
 
+@auth.requires_login()
 def changeTags():
     try:
         request.args[0]
@@ -110,12 +121,12 @@ def showDes():
                                                      db.events.venue)[0]
     return dict(des=des)
 
-
+@auth.requires_login()
 def myEvents():
     events = db(db.events.ownerOfEvent == session.auth.user.id).select()
     return dict(events=events)
 
-
+@auth.requires_login()
 def editEvent():
     try:
         request.args[0]

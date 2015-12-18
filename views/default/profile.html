@@ -3,9 +3,14 @@
 {{if len(mytags)>0:}}
 {{=H3("My groups:")}}
 {{pass}}
+<table>
 {{for i in mytags:}}
-{{=LI(i)}}
+<tr>
+<td>{{=i[0]}}</td>
+<td style="padding-left:4em"><a href='{{=URL("deleteGroup", args=[i[1]])}}'>delete</a></td>
+</tr>
 {{pass}}
+</table>
 {{=H3("Join a group")}}
 <div style="text-align:left; width:20em;">
     {{=form}}
