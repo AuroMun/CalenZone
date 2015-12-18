@@ -217,6 +217,7 @@ def editEvent():
 
 @auth.requires_login()
 def calendar():
+    useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
     return locals()
 
 
