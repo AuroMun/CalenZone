@@ -41,10 +41,12 @@ def profile():
 @auth.requires_login()
 def deleteGroup():
     try:
-        id = request.args[0]
+        gid = request.args[0]
     except IndexError:
         redirect(URL('profile'))
-    crud.delete(db.userTag, id)
+    ownerOfTag = db(db.userTag.id == gid).select()[0].auth_user
+    if ownerOfTag == session.auth.user.id:
+        crud.delete(db.userTag, gid)
     redirect(URL('profile'))
     return
 
