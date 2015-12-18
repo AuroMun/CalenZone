@@ -69,14 +69,30 @@ def createEvent():
     y = groupNameFormatter(x)
 
     ##Processing Form
-    if form.process().accepted:
-        response.flash = "Event created successfully"
+    ##auto setting end date
+    ##if request.vars["startAt"]
+    ##Checking if groups are in db
+    if request.vars.groups:
         groups = request.vars.groups.split(", ")
+        #testcase1
         for group in groups:
-            gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
-            response.flash += ":" + str(gr_id)
-            db.eventTag.insert(tag=gr_id, events=form.vars.id)
-        redirect(URL('calendar'))
+            if len(db(db.tag.tagName == group).select(db.tag.id))==0:
+                response.flash += "Invalid Group Name!"
+                form.errors = True
+        #testcase2
+        if len(groups)!=len(set(groups)):
+            response.flash += "Multiple groups of same name!"
+            form.errors = True
+
+    if not form.errors:
+        if form.process().accepted:
+            response.flash = "Event created successfully"
+            groups = request.vars.groups.split(", ")
+            for group in groups:
+                gr_id = db(db.tag.tagName == group).select(db.tag.id)[0].id
+                response.flash += ":" + str(gr_id)
+                db.eventTag.insert(tag=gr_id, events=form.vars.id)
+            redirect(URL('calendar'))
     return dict(form=form, grouplist=T(y))
 
 @auth.requires_login()
