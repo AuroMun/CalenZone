@@ -8,7 +8,9 @@
     {{=TD('Starts At:')}}{{=TD(des.startAt)}}
     </tr>
     <tr>
-    {{=TD('Ends At:')}}{{=TD(des.endAt)}}
+	  {{if des.endAt:}}
+      {{=TD('Ends At:')}}{{=TD(des.endAt)}}
+	  {{pass}}
     </tr>
     {{if des.venue:}}
     <tr>
