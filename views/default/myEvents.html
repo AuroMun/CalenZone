@@ -7,7 +7,7 @@
 	<td>{{=i.eventName}}</td>
 	<td><a href="">edit</a></td>
 	<td><a href="">edit tags</a></td>
-	<td><a href="">delete</a></td>
+	<td><a href={{=URL("deleteEvent", args=[i.id])}}>delete</a></td>
 </tr>
 {{pass}}
 </tbody>

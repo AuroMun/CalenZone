@@ -88,6 +88,17 @@ def calendar():
     return locals()
 
 @auth.requires_login()
+def deleteEvent():
+    event_id = request.args[0]
+    event = db.events[event_id]
+    if event.created_by == session.auth.user.id:
+        session.flash = "Event deleted!"
+        db(db.events.id == event_id).delete()
+    else:
+        session.flash = "You do no have permission to delete this event!"
+    redirect(URL('myEvents'))
+
+@auth.requires_login()
 def eventView():
     ##db(db.userTag.auth_user==session.auth.user.id).select()
     #tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)

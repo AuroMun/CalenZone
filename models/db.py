@@ -92,6 +92,7 @@ db.define_table('events',
                 Field('link', 'string', label="Webpage link"),
                 Field('ownerOfEvent', db.auth_user, readable=False, writable=False),
                 Field('typeOfEvent', 'string', label="Event Tag (*)", requires = IS_IN_SET(['Academic', 'Cultural', 'Sports', 'Holiday', 'Other', 'Urgent'])),
+                auth.signature,
                 format='%(eventName)s')
 
 db.define_table('userTag',
