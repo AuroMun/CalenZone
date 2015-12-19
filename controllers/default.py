@@ -218,6 +218,9 @@ def editEvent():
 @auth.requires_login()
 def calendar():
     useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
+    check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == 1)).select() 
+    if check == None:
+        db.userTag.insert(auth_user=session.auth.user.id, tag=1)
     return locals()
 
 
