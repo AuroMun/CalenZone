@@ -52,6 +52,7 @@ response.form_label_separator = myconf.take('forms.separator')
 #########################################################################
 
 from gluon.tools import Auth, Service, PluginManager, Crud
+import datetime
 
 auth = Auth(db)
 service = Service()
@@ -85,8 +86,8 @@ db.define_table('tag',
 
 db.define_table('events',
                 Field('eventName', 'string', label="Event's Name (*)", requires=IS_NOT_EMPTY()),
-                Field('startAt', 'datetime', label="Starts At (*)", requires=[IS_NOT_EMPTY(), IS_DATETIME()]),
-                Field('endAt', 'datetime', label="Ends At", requires=[IS_DATETIME()]),
+                Field('startAt', 'datetime', label="Starts At (*)", requires=[IS_NOT_EMPTY(),IS_DATETIME_IN_RANGE(format=T('%Y-%m-%d %H:%M:%S'),minimum=datetime.datetime.today(),error_message='Wrong Date')]),
+                Field('endAt', 'datetime', label="Ends At"),
                 Field('venue', 'string', label="Venue"),
                 Field('contact', 'string', label="Contact"),
                 Field('description', 'text', label="Description (*)", requires=IS_NOT_EMPTY()),
