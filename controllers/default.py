@@ -249,7 +249,7 @@ def editEvent():
 def calendar():
     if session.auth != None:
         useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
-        check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == 1)).select() 
+        check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == db.tag.id) & (db.tag.tagName == "All")).select() 
         if check == None:
             db.userTag.insert(auth_user=session.auth.user.id, tag=1)
     else:
@@ -289,39 +289,41 @@ def eventView():
                                        distinct=True)
 
     # events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
+    res=[]
     for event in events:
-        event.id = event.events["id"]
-        event.eventName = event.events["eventName"]
-        event.startAt = event.events["startAt"]
+        temp={}
+        temp["id"] = event.events["id"]
+        temp["eventName"] = event.events["eventName"]
+        temp["events"]={}
+        temp["events"]["startAt"] = event.events["startAt"]
 
         ## default endtime to start time if there is none
         if event.events["endAt"]:
-            event.endAt = event.events["endAt"]
+            temp["events"]["endAt"] = event.events["endAt"]
         else:
-            event.endAt = event.startAt
-            event.events["endAt"] = event.startAt
+            temp["events"]["endAt"] = event.events.startAt
+            event.events["endAt"] = event.events.startAt
 
-        ##TODO - Fix auro's messy ass code -_-
-        event.typeOfEvent = event.events["typeOfEvent"]
-        event["title"] = event.events["eventName"]
+        temp["typeOfEvent"] = event.events["typeOfEvent"]
+        temp["title"] = event.events["eventName"]
         if event.events.typeOfEvent == 'Academic':
-            event["class"] = "event-info"
+            temp["class"] = "event-info"
         if event.events.typeOfEvent == 'Cultural':
-            event["class"] = "event-success"
+            temp["class"] = "event-success"
         if event.events.typeOfEvent == 'Sports':
-            event["class"] = "event-special"
+            temp["class"] = "event-special"
         if event.events.typeOfEvent == 'Holiday':
-            event["class"] = "event-warning"
+            temp["class"] = "event-warning"
         if event.events.typeOfEvent == 'Other':
-            event["class"] = "event-inverse"
+            temp["class"] = "event-inverse"
         if event.events.typeOfEvent == 'Urgent':
-            event["class"] = "event-important"
-        event["url"] = URL('showDes.html', args=[event.events.id])
-        event["start"] = (event.events["startAt"] - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
-        event["end"] = (event.endAt - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
-        # event["url"] = event.eventName
+            temp["class"] = "event-important"
+        temp["url"] = URL('showDes.html', args=[event.events.id])
+        temp["start"] = (event.events["startAt"] - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
+        temp["end"] = (event.events.endAt - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
+        res.append(temp)
 
-    return dict(success=1, result=events)
+    return dict(success=1, result=res)
 
 
 def user():
