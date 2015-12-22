@@ -284,43 +284,43 @@ def eventView():
         q1 = db.eventTag.tag == db.tag.id
         q2 = db.tag.tagName == "Public"
         q3 = db.events.id == db.eventTag.events
-        events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
-                                       db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
+        events = db((q1 & q2 & q3)).select(db.events.eventName, db.events.id, db.events.startAt,
+                                       db.events.endAt, db.events.typeOfEvent,
                                        distinct=True)
 
     # events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
     res=[]
     for event in events:
         temp={}
-        temp["id"] = event.events["id"]
-        temp["eventName"] = event.events["eventName"]
+        temp["id"] = event["id"]
+        temp["eventName"] = event["eventName"]
         temp["events"]={}
-        temp["events"]["startAt"] = event.events["startAt"]
+        temp["events"]["startAt"] = event["startAt"]
 
         ## default endtime to start time if there is none
-        if event.events["endAt"]:
-            temp["events"]["endAt"] = event.events["endAt"]
+        if event["endAt"]:
+            temp["events"]["endAt"] = event["endAt"]
         else:
-            temp["events"]["endAt"] = event.events.startAt
-            event.events["endAt"] = event.events.startAt
+            temp["events"]["endAt"] = event.startAt
+            event["endAt"] = event.startAt
 
-        temp["typeOfEvent"] = event.events["typeOfEvent"]
-        temp["title"] = event.events["eventName"]
-        if event.events.typeOfEvent == 'Academic':
+        temp["typeOfEvent"] = event["typeOfEvent"]
+        temp["title"] = event["eventName"]
+        if event.typeOfEvent == 'Academic':
             temp["class"] = "event-info"
-        if event.events.typeOfEvent == 'Cultural':
+        if event.typeOfEvent == 'Cultural':
             temp["class"] = "event-success"
-        if event.events.typeOfEvent == 'Sports':
+        if event.typeOfEvent == 'Sports':
             temp["class"] = "event-special"
-        if event.events.typeOfEvent == 'Holiday':
+        if event.typeOfEvent == 'Holiday':
             temp["class"] = "event-warning"
-        if event.events.typeOfEvent == 'Other':
+        if event.typeOfEvent == 'Other':
             temp["class"] = "event-inverse"
-        if event.events.typeOfEvent == 'Urgent':
+        if event.typeOfEvent == 'Urgent':
             temp["class"] = "event-important"
-        temp["url"] = URL('showDes.html', args=[event.events.id])
-        temp["start"] = (event.events["startAt"] - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
-        temp["end"] = (event.events.endAt - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
+        temp["url"] = URL('showDes.html', args=[event.id])
+        temp["start"] = (event["startAt"] - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
+        temp["end"] = (event.endAt - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
         res.append(temp)
 
     return dict(success=1, result=res)
