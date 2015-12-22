@@ -68,6 +68,37 @@ def profile():
         redirect(URL())
     return locals()
 
+@auth.requires_login()
+def importEvents():
+    groups = db(db.tag.id>0).select()
+    grp_dict = {}
+    for a in groups:
+        grp_dict[a.tagName]=a.id
+
+    if request.vars.csvfile != None:
+        file = request.vars.csvfile.file
+        for line in file:
+            arr = line.split(",")
+            id = db.events.insert(**db.events._filter_fields({
+                "eventName":arr[0],
+                "startAt":arr[1],
+                "endAt":arr[2],
+                "venue":arr[3],
+                "contact":arr[4],
+                "description":arr[5],
+                "link":arr[6],
+                "typeOfEvent":arr[7],
+                "created_by":session.auth.user.id,
+                "created_at":datetime.datetime.utcnow()
+                }))
+            grps = arr[8].split(";")
+            for grp in grps:
+                db.eventTag.insert(**db.eventTag._filter_fields({
+                    "tag":grp_dict[grp.strip()],
+                    "events":id
+                    }))
+
+    return dict()
 
 @auth.requires_login()
 def deleteGroup():
