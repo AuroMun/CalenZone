@@ -23,6 +23,22 @@ def index():
     redirect(URL('calendar'))
     return dict(title='Please Log in')
 
+def search():
+    form = SQLFORM.factory(
+        Field("keyword", "string"),
+        formstyle='divs',
+        submit_button="Search")
+    key=None
+    q1 = db.userTag.tag == db.eventTag.tag
+    q1 &= (db.userTag.auth_user == session.auth.user.id)
+    q1 &= (db.events.id == db.eventTag.events)
+    if form.process().accepted:
+        key = form.vars.keyword
+        if key:
+            q1 &= db.events.eventName.like("%%%s%%" % key)
+    res = db(q1).select(db.events.eventName, db.events.startAt)
+    return dict(form=form, res=res, key=key)
+
 def iCal():
     useremail = request.args[0]
     userid = db(db.auth_user.email==useremail).select(db.auth_user.id)[0]

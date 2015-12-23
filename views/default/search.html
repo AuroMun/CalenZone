@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<h1>This is the default/search.html template</h1>
+{{=form}}
+<table border="1">
+{{for item in res:}}
+<tr><td>
+{{=item.eventName}}
+    </td>
+    <td>{{=item.startAt}}</td>
+    </tr>
+{{pass}}
+</table>
