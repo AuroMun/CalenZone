@@ -249,7 +249,7 @@ def editEvent():
 def calendar():
     if session.auth != None:
         useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
-        check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == 1)).select() 
+        check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == db.tag.id) & (db.tag.tagName == "All")).select() 
         if check == None:
             db.userTag.insert(auth_user=session.auth.user.id, tag=1)
     else:
