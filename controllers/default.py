@@ -215,12 +215,14 @@ def editEvent():
     return dict(form=form)
 
 
-@auth.requires_login()
 def calendar():
-    useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
-    check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == 1)).select() 
-    if check == None:
-        db.userTag.insert(auth_user=session.auth.user.id, tag=1)
+    if session.auth != None:
+        useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
+        check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == 1)).select() 
+        if check == None:
+            db.userTag.insert(auth_user=session.auth.user.id, tag=1)
+    else:
+        useremail = "Not Logged in"
     return locals()
 
 
@@ -239,22 +241,22 @@ def deleteEvent():
     redirect(URL('myEvents'))
 
 
-@auth.requires_login()
 def eventView():
-    ##db(db.userTag.auth_user==session.auth.user.id).select()
-    # tags=db(db.userTag.auth_user==session.auth.user.id).select(db.userTag.tag)
-    # events = []
-    # blah = tags[0]
-    # for taga in tags:
-    #    events = db(db.eventTag.tag == taga).select(db.events.eventName)
-    cond1 = (db.userTag.auth_user == session.auth.user.id)
-    q1 = db.userTag.tag == db.eventTag.tag
-    q2 = db.userTag.auth_user == session.auth.user.id
-    q3 = db.events.id == db.eventTag.events
-    # q4 = db.events.created_by = session.auth.user.id
-    events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
+    if session.auth != None:
+        q1 = db.userTag.tag == db.eventTag.tag
+        q2 = db.userTag.auth_user == session.auth.user.id
+        q3 = db.events.id == db.eventTag.events
+        events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
                                        db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
                                        distinct=True)
+    else:
+        q1 = db.eventTag.tag == db.tag.id
+        q2 = db.tag.tagName == "Public"
+        q3 = db.events.id == db.eventTag.events
+        events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
+                                       db.events.endAt, db.events.typeOfEvent, db.eventTag.tag,
+                                       distinct=True)
+
     # events = db(cond1 and db.userTag.tag==db.eventTag.tag and db.events.id == db.eventTag.events).select()
     for event in events:
         event.id = event.events["id"]
