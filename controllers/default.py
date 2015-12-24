@@ -24,12 +24,13 @@ def index():
     redirect(URL('calendar'))
     return dict(title='Please Log in')
 
+@auth.requires_login()
 def search():
     key=None
     q1 = db.userTag.tag == db.eventTag.tag
     q1 &= (db.userTag.auth_user == session.auth.user.id)
     q1 &= (db.events.id == db.eventTag.events)
-    res = db(q1).select(db.events.eventName, db.events.startAt)
+    res = db(q1).select(db.events.eventName, db.events.startAt, db.events.endAt)
     return dict(res=res, key=key)
 
 def iCal():
