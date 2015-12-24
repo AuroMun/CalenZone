@@ -1,7 +1,15 @@
 {{extend 'layout.html'}}
-<h1>This is the default/search.html template</h1>
-{{=form}}
-<table border="1">
+<script src="{{=URL('static','DataTables/dataTables.min.js')}}"></script>
+<link rel="stylesheet" href="{{=URL('static','DataTables/dataTables.min.css')}}">
+<h1>Query Calendar</h1>
+<div id="hi"></div>
+<table id="datatable" border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Start Date</th>
+    </tr>
+    </thead>
 {{for item in res:}}
 <tr><td>
 {{=item.eventName}}
@@ -10,3 +18,24 @@
     </tr>
 {{pass}}
 </table>
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable({
+            dom: 'Bfrtip',
+            select: true,
+            buttons: [
+                {
+                    extend: 'collection',
+                    text: 'Export',
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'csv',
+                        'pdf',
+                        'print'
+                    ]
+                }
+            ]
+        });
+    } );
+</script>
