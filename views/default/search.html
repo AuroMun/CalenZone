@@ -1,0 +1,41 @@
+{{extend 'layout.html'}}
+<script src="{{=URL('static','DataTables/dataTables.min.js')}}"></script>
+<link rel="stylesheet" href="{{=URL('static','DataTables/dataTables.min.css')}}">
+<h1>Query Calendar</h1>
+<table id="datatable" border="1">
+    <thead><tr><th>id</th><th>Name</th><th>Begins</th><th>Ends</th><th>Venue</th><th>Contact</th><th>Description</th><th>Link</th><th>Type</th></tr></thead>
+{{for item in res:}}
+<tr>
+    <td>{{=item.id}}</td>
+    <td>{{=item.eventName}}</td>
+    <td>{{=item.startAt.strftime("%H:%M %B %d, %Y")}}</td>
+    <td>{{=item.endAt.strftime("%H:%M %B %d, %Y")}}</td>
+    <td>{{=item.venue}}</td>
+    <td>{{=item.contact}}</td>
+    <td>{{=item.description}}</td>
+    <td>{{=item.link}}</td>
+    <td>{{=item.typeOfEvent}}</td>
+</tr>
+{{pass}}
+</table>
+<script>
+    $(document).ready(function() {
+        $('#datatable').DataTable({
+            dom: 'Blfrtip',
+            buttons: [
+                {
+                    extend: 'collection',
+                    text: 'Export',
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'csv',
+                        'pdf',
+                        'print'
+                    ]
+                },'colvis'
+            ]
+
+        });
+    } );
+</script>
