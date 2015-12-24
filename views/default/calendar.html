@@ -84,22 +84,20 @@
         <div class="col-sm-9">
             <div id="calendar"></div>
         </div>
-        <div class="col-sm-3" style="padding-top:5%;max-height:100%;height:auto;overflow:auto">
+        <div class="col-sm-3" style="max-height:100%;height:auto;overflow:auto">
+            <h3>
+                iCal Address
+            </h3>
+            <input id="foo" value="{{=URL('iCal',args=[useremail], host=True)}}">
+            <button class="btn" data-clipboard-target="#foo">
+                <img src="{{=URL('static','bower_components/clipboard/clippy.svg')}}" alt="Copy to clipboard">
+            </button>
             <div class="well row" id="events">
-                <!-- Target -->
-                <h3>
-                    iCal Address
-                </h3>
-                <input id="foo" value="{{=URL('iCal',args=[useremail], host=True)}}">
-                <!-- Trigger -->
-                <button class="btn" data-clipboard-target="#foo">
-                    <img src="{{=URL('static','bower_components/clipboard/clippy.svg')}}" alt="Copy to clipboard">
-                </button>
                 <h3>
                     Events
                 </h3>
                 <input class="search" placeholder="Search"/>
-                <ul id="eventlist" class="list nav nav-list">
+                <ul id="eventlist" class="list nav nav-list" style="max-height: 60vh;height:auto;overflow:auto">
                 </ul>
             </div>
         </div>
