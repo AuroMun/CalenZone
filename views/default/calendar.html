@@ -85,6 +85,12 @@
             <div id="calendar"></div>
         </div>
         <div class="col-sm-3" style="max-height:100%;height:auto;overflow:auto">
+            {{if useremail=="Not Logged in":}}
+            <h3>
+                Please log in to see your events
+            </h3>
+            {{pass}}
+            {{else:}}
             <h3>
                 iCal Address
             </h3>
@@ -92,6 +98,7 @@
             <button class="btn" data-clipboard-target="#foo">
                 <img src="{{=URL('static','bower_components/clipboard/clippy.svg')}}" alt="Copy to clipboard">
             </button>
+            {{pass}}
             <div class="well row" id="events">
                 <h3>
                     Events
