@@ -1,21 +1,23 @@
 {{extend 'layout.html'}}
 <script src="{{=URL('static','DataTables/dataTables.min.js')}}"></script>
 <link rel="stylesheet" href="{{=URL('static','DataTables/dataTables.min.css')}}">
+<script src="{{=URL('static','js/datetime-moment.js')}}"></script>
 <h1>Query Calendar</h1>
-<div id="hi"></div>
 <table id="datatable" border="1">
     <thead>
     <tr>
         <th>Name</th>
-        <th>Start Date</th>
+        <th>Begins</th>
+        <th>Ends</th>
     </tr>
     </thead>
 {{for item in res:}}
 <tr><td>
 {{=item.eventName}}
     </td>
-    <td>{{=item.startAt}}</td>
-    </tr>
+    <td>{{=item.startAt.strftime("%H:%M %B %d, %Y")}}</td>
+    <td>{{=item.endAt.strftime("%H:%M %B %d, %Y")}}</td>
+</tr>
 {{pass}}
 </table>
 <script>
