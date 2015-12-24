@@ -9,6 +9,7 @@
 #########################################################################
 import time
 import datetime
+import csv
 
 
 def index():
@@ -93,8 +94,8 @@ def importEvents():
 
     if request.vars.csvfile != None:
         file = request.vars.csvfile.file
-        for line in file:
-            arr = line.split(",")
+        csvdata = csv.reader(file)
+        for arr in csvdata:
             id = db.events.insert(**db.events._filter_fields({
                 "eventName":arr[0],
                 "startAt":arr[1],
