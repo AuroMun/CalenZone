@@ -11,7 +11,7 @@ No events
 	<td>{{=i.eventName}}</td>
 	<td><a href='{{=URL("editEvent", args=[i.id])}}'>edit event</a></td>
 	<td><a href='{{=URL("changeTags", args=[i.id])}}'>edit tags</a></td>
-	<td><a href={{=URL("deleteEvent", args=[i.id])}}>delete</a></td>
+	<td><a href='{{=URL("deleteEvent", args=[i.id])}}'>delete</a></td>
 </tr>
 {{pass}}
 </tbody>

@@ -1,6 +1,6 @@
 {{extend 'layout.html'}}
-<script src="{{=URL('static','DataTables/dataTables.min.js')}}"></script>
-<link rel="stylesheet" href="{{=URL('static','DataTables/dataTables.min.css')}}">
+<script src="{{=URL('static','DataTables/datatables.min.js')}}"></script>
+<link rel="stylesheet" href="{{=URL('static','DataTables/datatables.min.css')}}">
 <h1>Query Calendar</h1>
 <table id="datatable" border="1">
     <thead><tr><th>id</th><th>Name</th><th>Begins</th><th>Ends</th><th>Venue</th><th>Contact</th><th>Description</th><th>Link</th><th>Type</th></tr></thead>
@@ -27,15 +27,43 @@
                     extend: 'collection',
                     text: 'Export',
                     buttons: [
-                        'copy',
-                        'excel',
-                        'csv',
-                        'pdf',
-                        'print'
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'pdf',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'csv',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        }
                     ]
                 },'colvis'
-            ]
-
+            ],
+            columnDefs: [ {
+                targets: [0,4,5,7],
+                visible: false
+            } ]
         });
     } );
 </script>
