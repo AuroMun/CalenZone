@@ -39,11 +39,8 @@ def iCal():
     q1 = db.userTag.tag == db.eventTag.tag
     q2 = db.userTag.auth_user == userid
     q3 = db.events.id == db.eventTag.events
-    # q4 = db.events.created_by = session.auth.user.id
+    events = db((q1 & q2 & q3)).select(db.events.ALL,distinct=True)
     title = "IIIT CALENDAR"
-    events = db((q1 & q2 & q3)).select(db.userTag.tag, db.events.eventName, db.events.id, db.events.startAt,
-                                           db.events.endAt, db.events.description, db.events.link,
-                                           distinct=True)
     s = 'BEGIN:VCALENDAR'
     s += '\nVERSION:2.0'
     s += '\nX-WR-CALNAME:%s' % title
@@ -54,11 +51,11 @@ def iCal():
     format = '%Y%m%dT%H%M%SZ'
     for item in events:
         s += '\nBEGIN:VEVENT'
-        s += '\nUID:%s' % item.events.id
-        s += '\nURL:%s' % item.events['link']
-        s += '\nDTSTART:%s' % item.events['startAt'].strftime(format)
-        s += '\nDTEND:%s' % item.events['endAt'].strftime(format)
-        s += '\nSUMMARY:%s' % item.events['description']
+        s += '\nUID:%s' % item.id
+        s += '\nURL:%s' % item['link']
+        s += '\nDTSTART:%s' % item['startAt'].strftime(format)
+        s += '\nDTEND:%s' % item['endAt'].strftime(format)
+        s += '\nSUMMARY:%s' % item['eventName']
         s += '\nEND:VEVENT'
     s += '\nEND:VCALENDAR'
     return s
