@@ -256,11 +256,12 @@ def editEvent():
 def calendar():
     if session.auth != None:
         useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
-        check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == db.tag.id) & (db.tag.tagName == "All")).select() 
-        if check == None:
-            db.userTag.insert(auth_user=session.auth.user.id, tag=1)
+        check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == db.tag.id) & (db.tag.tagName == "All")).count()
+    if check == 0:
+        db.userTag.insert(auth_user=session.auth.user.id, tag=1)
     else:
         useremail = "Not Logged in"
+    response.flash = str(check)
     return locals()
 
 
@@ -326,8 +327,8 @@ def eventView():
         if event.typeOfEvent == 'Urgent':
             temp["class"] = "event-important"
         temp["url"] = URL('showDes.html', args=[event.id])
-        temp["start"] = (event["startAt"] - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
-        temp["end"] = (event.endAt - datetime.datetime(1970, 1, 1)).total_seconds() * 1000
+        temp["start"] = (event["startAt"] - datetime.datetime(1970, 1, 1)).total_seconds() * 1000 - 19800 * 1000
+        temp["end"] = (event.endAt - datetime.datetime(1970, 1, 1)).total_seconds() * 1000 - 19800 * 1000
         res.append(temp)
 
     return dict(success=1, result=res)
