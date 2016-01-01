@@ -252,6 +252,9 @@ def editEvent():
         redirect(URL('myEvents'))
     return dict(form=form)
 
+def gen_mail():
+    response.view = 'default/index.html'
+    return locals()
 
 def calendar():
     if session.auth != None:
@@ -261,7 +264,6 @@ def calendar():
         db.userTag.insert(auth_user=session.auth.user.id, tag=1)
     else:
         useremail = "Not Logged in"
-    response.flash = str(check)
     return locals()
 
 

@@ -10,6 +10,9 @@ def generate_mail():
     cc=[], bcc=[], reply_to=[], sender=None, encoding='utf-8',
      raw=True, headers={})'''
     # x = mail.send(to=['adarshsanjeev@gmail.com'], subject="Test", message="ATTEMPT #!")
+    curr_time = datetime.datetime.now()
+    coming_time = curr_time + datetime.timedelta(minutes=15)
+    rows = db((db.events.startAt < coming_time) & (db.events.startAt>curr_time)).select(orderby=db.events.startAt)
     x = None
     if x == True:
         session.flash = 'email sent sucessfully.'
