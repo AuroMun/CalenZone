@@ -260,8 +260,8 @@ def calendar():
     if session.auth != None:
         useremail = db(db.auth_user.id==session.auth.user.id).select(db.auth_user.email)[0].email
         check = db((db.userTag.auth_user == session.auth.user.id) & (db.userTag.tag == db.tag.id) & (db.tag.tagName == "All")).count()
-    if check == 0:
-        db.userTag.insert(auth_user=session.auth.user.id, tag=1)
+        if check == 0:
+            db.userTag.insert(auth_user=session.auth.user.id, tag=1)
     else:
         useremail = "Not Logged in"
     return locals()
